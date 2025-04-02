@@ -5,6 +5,7 @@ const connectDb = require('./config/connectionDb');
 
 const PORT = process.env.PORT || 3000;
 connectDb();
+app.use(express.json());
 
 app.use("/recipe", require('./routes/recipe'));
 
