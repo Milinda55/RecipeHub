@@ -14,12 +14,10 @@ const recipeSchema = mongoose.Schema({
         required: true,
     },
     time: {
-        type: String,
-        required: true,
+        type: String
     },
     coverImage: {
-        type: String,
-        required: true,
+        type: String
     }
 
 }, {timestamps: true});
