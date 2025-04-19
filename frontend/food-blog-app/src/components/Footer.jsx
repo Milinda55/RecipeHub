@@ -3,7 +3,7 @@ import React from 'react';
 function Footer(props) {
     return (
         <div className='footer'>
-            <p>@copyright food recipe application</p>
+            <p>&copy; Food Recipe Application</p>
 
         </div>
     );
