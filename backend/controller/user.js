@@ -36,7 +36,8 @@ const userLogin=async(req,res)=> {
 }
 
 const getUser=async(req,res)=> {
-
+    const user = await User.findById(req.params.id)
+    res.json({email:user.email})
 }
 
 module.exports={userLogin, userSignUp, getUser}
