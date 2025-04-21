@@ -1,6 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Modal from "./Modal.jsx";
 
-function NavBar(props) {
+function NavBar() {
+    const [isOpen,setIsOpen]=useState(false)
+
+    const checkLogin=()=> {
+        setIsOpen(true)
+    }
+
     return (
         <>
             <header>
@@ -9,10 +16,11 @@ function NavBar(props) {
                     <li>Home</li>
                     <li>My Recipe</li>
                     <li>Favourites</li>
-                    <li>Login</li>
+                    <li onClick={checkLogin}>Login</li>
                 </ul>
-
             </header>
+
+            { (isOpen) && <Modal onClose={()=>setIsOpen(false)} /> }
 
 
         </>
