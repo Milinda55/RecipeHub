@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Modal({onClose}) {
+function Modal({children, onClose}) {
     return (
         <>
             <div className='backdrop' onClick={onClose}>
                 <dialog className='modal' open>
-                    <h1>Hello login</h1>
+                    {children}
                 </dialog>
 
             </div>
