@@ -21,7 +21,7 @@ function NavBar() {
                 </ul>
             </header>
 
-            { (isOpen) && <Modal onClose={()=>setIsOpen(false)}><InputForm /></Modal> }
+            { (isOpen) && <Modal onClose={()=>setIsOpen(false)}><InputForm setIsOpen={()=>setIsOpen(false)} /></Modal> }
 
 
         </>
