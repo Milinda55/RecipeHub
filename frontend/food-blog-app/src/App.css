@@ -183,6 +183,7 @@ section{
   width: 71%;
   margin: 0 auto;
   text-align: center;
+  /*justify-content: center;*/
 }
 
 .form-header{
@@ -204,6 +205,7 @@ section{
   border-radius: 4px;
   height: 30px;
   padding: 2px;
+  /*justify-content: space-evenly;*/
 }
 
 .form-control .input-textarea{

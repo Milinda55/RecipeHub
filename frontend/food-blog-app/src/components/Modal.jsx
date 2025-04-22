@@ -3,14 +3,10 @@ import React from 'react';
 function Modal({children, onClose}) {
     return (
         <>
-            <div className='backdrop' onClick={onClose}>
+            <div className='backdrop' onClick={onClose}></div>
                 <dialog className='modal' open>
                     {children}
                 </dialog>
-
-            </div>
-
-
         </>
     );
 }
