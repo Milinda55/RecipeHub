@@ -1,13 +1,27 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from "./Modal.jsx";
 import InputForm from "./InputForm.jsx";
 import {NavLink} from "react-router-dom";
 
 function NavBar() {
     const [isOpen,setIsOpen]=useState(false)
+    let token=localStorage.getItem("token")
+    const [isLogin,setIsLogin]=useState(token ? false : true);
+
+    useEffect(()=>{
+        setIsLogin(token ? false : true)
+    },[token])
 
     const checkLogin=()=> {
-        setIsOpen(true)
+
+        if(token) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            setIsLogin(true);
+        }
+        else {
+            setIsOpen(true)
+        }
     }
 
     return (
@@ -18,7 +32,7 @@ function NavBar() {
                     <li><NavLink to="/">Home</NavLink></li>
                     <li><NavLink to="/myRecipe">My Recipe</NavLink></li>
                     <li><NavLink to="/favRecipe">Favourites</NavLink></li>
-                    <li onClick={checkLogin}><p className='login'>Login</p></li>
+                    <li onClick={checkLogin}><p className='login'>{ (isLogin)? "Login" : "Logout" }</p></li>
                 </ul>
             </header>
 
