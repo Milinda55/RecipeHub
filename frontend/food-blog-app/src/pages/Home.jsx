@@ -3,22 +3,26 @@ import foodRecipe from '../assets/Food-recipe.png'
 import NavBar from "../components/NavBar.jsx";
 import Footer from "../components/Footer.jsx";
 import RecipeItems from "../components/RecipeItems.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Home(props) {
+    const navigate = useNavigate()
+
+
     return (
         <>
             <section className="home">
                 <div className="left">
                     <h1>Food Recipe</h1>
                     <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, consequatur cum ea expedita id iure ratione sit! A culpa dignissimos dolore facere porro temporibus? Beatae error iure neque unde voluptatem?</h5>
-                    <button>Share your recipe</button>
+                    <button onClick={()=>navigate("/addRecipe")}>Share your recipe</button>
                 </div>
                 <div className="right">
                     <img src={foodRecipe} width="320px" height="300px"/>
                 </div>
             </section>
             <div className='bg'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#d4f6e8" fillOpacity="1" d="M0,256L48,229.3C96,203,192,149,288,149.3C384,149,480,203,576,218.7C672,235,768,213,864,202.7C960,192,1056,192,1152,202.7C1248,213,1344,235,1392,245.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#d4f6e8" fillOpacity="1" d="M0,32L40,32C80,32,160,32,240,58.7C320,85,400,139,480,149.3C560,160,640,128,720,101.3C800,75,880,53,960,80C1040,107,1120,181,1200,213.3C1280,245,1360,235,1400,229.3L1440,224L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path></svg>
             </div>
 
             <div className='recipe'>
