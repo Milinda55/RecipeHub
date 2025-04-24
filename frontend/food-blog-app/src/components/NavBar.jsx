@@ -30,8 +30,8 @@ function NavBar() {
                 <h2>Food Blog</h2>
                 <ul>
                     <li><NavLink to="/">Home</NavLink></li>
-                    <li><NavLink to="/myRecipe">My Recipe</NavLink></li>
-                    <li><NavLink to="/favRecipe">Favourites</NavLink></li>
+                    <li onClick={()=>isLogin && setIsOpen(true)}><NavLink to={ !isLogin ? "/myRecipe" : "/"}>My Recipe</NavLink></li>
+                    <li onClick={()=>isLogin && setIsOpen(true)}><NavLink to={ !isLogin ? "/favRecipe" : "/"}>Favourites</NavLink></li>
                     <li onClick={checkLogin}><p className='login'>{ (isLogin)? "Login" : "Logout" }</p></li>
                 </ul>
             </header>
