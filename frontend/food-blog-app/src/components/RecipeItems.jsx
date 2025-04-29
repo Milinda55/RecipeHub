@@ -1,5 +1,5 @@
 import React from 'react';
-import {useLoaderData} from "react-router-dom";
+import {Link, useLoaderData} from "react-router-dom";
 import foodImg from '../assets/Food-recipe.png';
 import { BsStopwatchFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa6";
@@ -23,14 +23,15 @@ function RecipeItems(props) {
                                     <div className='title'>{item.title}</div>
                                     <div className='icons'>
                                         <div className='timer'>
-                                            30mins
                                             <BsStopwatchFill />
+                                            {item.time}
                                         </div>
                                         {(!path) ? < FaHeart /> :
-                                        <div className='action'>
-                                            < FaEdit />
-                                            < MdDeleteOutline className='deleteIcon' />
-                                        </div>}
+                                            <div className='action'>
+                                                <Link to={`/editRecipe/${item._id}`} className="editIcon">< FaEdit /></Link>
+                                                < MdDeleteOutline className='deleteIcon' />
+                                            </div>
+                                        }
 
                                     </div>
 
