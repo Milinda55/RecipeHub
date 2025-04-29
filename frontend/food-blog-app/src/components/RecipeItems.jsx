@@ -3,10 +3,13 @@ import {useLoaderData} from "react-router-dom";
 import foodImg from '../assets/Food-recipe.png';
 import { BsStopwatchFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa6";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 function RecipeItems(props) {
 
     const allRecipes=useLoaderData();
+    let path = window.location.pathname === "/myRecipe" ? true : false;
     console.log(allRecipes);
     return (
         <>
@@ -24,6 +27,8 @@ function RecipeItems(props) {
                                             <BsStopwatchFill />
                                         </div>
                                         < FaHeart />
+                                        < FaEdit />
+                                        < MdDelete />
                                     </div>
 
                                 </div>
