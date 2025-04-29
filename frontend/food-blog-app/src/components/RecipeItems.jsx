@@ -12,7 +12,9 @@ function RecipeItems(props) {
     const recipes=useLoaderData();
     const [allRecipes, setAllRecipes] = useState()
     let path = window.location.pathname === "/myRecipe" ? true : false;
-    console.log(allRecipes);
+    let favItems = JSON.parse(localStorage.getItem("fav")) ?? []
+    const [isFavRecipe, setIsFavRecipe] = useState(false)
+    // console.log(allRecipes);
 
     useEffect(()=> {
         setAllRecipes(recipes)
@@ -22,7 +24,20 @@ function RecipeItems(props) {
         await axios.delete(`http://localhost:5000/recipe/${id}`)
             .then((res)=>console.log(res))
         setAllRecipes(recipes=>recipes.filter(recipe=>recipe._id !== id))
+        let filterItem = favItems.filter(recipe => recipe._id !== id)
+        localStorage.setItem("fav", JSON.stringify(filterItem))
+
+
     }
+
+    const favRecipe = (item) => {
+        let filterItem = favItems.filter(recipe => recipe._id !== item._id)
+        favItems = favItems.filter(recipe => recipe._id === item._id).length === 0 ? [...favItems, item] : filterItem
+        localStorage.setItem("fav", JSON.stringify(favItems))
+        setIsFavRecipe(pre => !pre)
+    }
+
+
     return (
         <>
             <div className='card-container'>
@@ -38,7 +53,9 @@ function RecipeItems(props) {
                                             <BsStopwatchFill />
                                             {item.time}
                                         </div>
-                                        {(!path) ? < FaHeart /> :
+                                        {(!path) ? <FaHeart onClick={() => favRecipe(item)}
+                                                            style={{ color: (favItems.some(res => res._id === item._id)) ? "red" : "" }}
+                                            /> :
                                             <div className='action'>
                                                 <Link to={`/editRecipe/${item._id}`} className="editIcon">< FaEdit /></Link>
                                                 < MdDeleteOutline onClick={()=>onDelete(item._id)} className='deleteIcon' />
