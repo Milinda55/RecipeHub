@@ -4,7 +4,7 @@ import foodImg from '../assets/Food-recipe.png';
 import { BsStopwatchFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 
 function RecipeItems(props) {
 
@@ -26,9 +26,12 @@ function RecipeItems(props) {
                                             30mins
                                             <BsStopwatchFill />
                                         </div>
-                                        < FaHeart />
-                                        < FaEdit />
-                                        < MdDelete />
+                                        {(!path) ? < FaHeart /> :
+                                        <div className='action'>
+                                            < FaEdit />
+                                            < MdDeleteOutline className='deleteIcon' />
+                                        </div>}
+
                                     </div>
 
                                 </div>
