@@ -19,6 +19,12 @@ header {
   background-color: #ffffff;
 }
 
+header img {
+  padding: 2px 2px 2px 20px;
+  width: 240px;
+  height: 100px;
+}
+
 header ul{
   width: 40%;
   height: 50px;
@@ -40,7 +46,8 @@ li a{
 }
 
 li a:hover{
-  color:black;
+  background-color: #48bb78;
+  color: white;
 }
 
 li .login{
@@ -48,26 +55,13 @@ li .login{
   font-weight: 500;
 }
 
-header h2{
-  margin-left: 1rem;
-}
 
 section{
-  height: 100vh;
+  height: 80vh;
   width: 90%;
   margin: 0 auto;
 }
 
-.home{
-  display: flex;
-  margin-top: 6rem;
-  gap:10rem;
-  position: relative;
-}
-
-.home .left h1{
-  margin-bottom: 1rem;
-}
 
 .home button{
   color: white;

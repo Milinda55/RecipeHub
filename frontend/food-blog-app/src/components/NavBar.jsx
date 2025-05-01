@@ -3,6 +3,7 @@ import Modal from "./Modal.jsx";
 import InputForm from "./InputForm.jsx";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from './AuthContext.jsx';
+import logo from '../assets/recipe-hub-logo.png';
 
 function NavBar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,7 @@ function NavBar() {
     const handleAuthClick = () => {
         if (isLoggedIn) {
             logout();
-            navigate('/'); // Redirect to home after logout
+            navigate('/');
         } else {
             setIsOpen(true);
         }
@@ -22,14 +23,14 @@ function NavBar() {
         if (!isLoggedIn) {
             setIsOpen(true);
         } else {
-            navigate(path); // Navigate to the protected route
+            navigate(path);
         }
     };
 
     return (
         <>
             <header>
-                <h2>Food Blog</h2>
+                <img src={logo} alt="logo"/>
                 <ul>
                     <li><NavLink to="/">Home</NavLink></li>
                     <li onClick={() => handleProtectedNavClick("/myRecipe")}>
