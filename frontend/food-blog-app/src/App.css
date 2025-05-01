@@ -692,10 +692,11 @@ auth-container {
 
 .categories {
   height: 80vh;
-  width: 90%;
+  width: 100%;
   margin: 0 0 100px 0;
   padding: 4rem 5%;
   background: var(--light);
+  gap: 5px
 }
 
 

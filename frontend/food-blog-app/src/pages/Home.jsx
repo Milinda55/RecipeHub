@@ -47,11 +47,10 @@ function Home(props) {
             <section className="categories">
                 <h2>Popular Categories</h2>
                 <div className="category-grid">
-                    {['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Vegetarian', 'Quick Meals'].map((category) => (
+                    {['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Fast Food', 'Pizza', 'Kottu', 'Burgers', 'Snacks', 'Smoothies'].map((category) => (
                         <div key={category} className="category-card">
                             <div className="category-image">
-                                <img src={heroImage} alt='testImg' />
-                                {/*<img src={`../assets/categories/${category.toLowerCase()}.png`} alt={category} />*/}
+                                <img src={`/categories/${category.toLowerCase()}.png`} alt={category} />
                             </div>
                             <h3>{category}</h3>
                         </div>
