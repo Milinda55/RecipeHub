@@ -6,6 +6,8 @@ import RecipeItems from "../components/RecipeItems.jsx";
 import {useNavigate} from "react-router-dom";
 import Modal from "../components/Modal.jsx";
 import InputForm from "../components/InputForm.jsx";
+import heroImage from '../assets/burger.png'; // Replace with your high-quality hero image
+// import pattern from '../assets/food-pattern.png'; // Decorative background pattern
 
 function Home(props) {
     const navigate = useNavigate()
@@ -21,30 +23,66 @@ function Home(props) {
     }
 
     return (
-        <>
-            <section className="home">
-                <div className="left">
-                    <h1>Food Recipe</h1>
-                    <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, consequatur cum ea expedita id iure ratione sit! A culpa dignissimos dolore facere porro temporibus? Beatae error iure neque unde voluptatem?</h5>
-                    <button onClick={addRecipe}>Share your recipe</button>
+        <div className="home-container">
+            <section className="hero">
+                <div className="hero-content">
+                    <h1>Discover & Share Amazing Recipes</h1>
+                    <p className="hero-subtitle">
+                        Join our community of food enthusiasts and explore thousands of delicious recipes
+                    </p>
+                    <div className="hero-actions">
+                        <button className="primary-btn" onClick={addRecipe}>
+                            Share Your Recipe
+                        </button>
+                        <button className="secondary-btn" onClick={() => document.querySelector('.featured-recipes').scrollIntoView({ behavior: 'smooth' })}>
+                            Browse Recipes
+                        </button>
+                    </div>
                 </div>
-                <div className="right">
-                    <img src={foodRecipe} width="320px" height="300px"/>
+                <div className="hero-image">
+                    <img src={heroImage} alt="Foods" />
                 </div>
             </section>
-            <div className='bg'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#d4f6e8" fillOpacity="1" d="M0,32L40,32C80,32,160,32,240,58.7C320,85,400,139,480,149.3C560,160,640,128,720,101.3C800,75,880,53,960,80C1040,107,1120,181,1200,213.3C1280,245,1360,235,1400,229.3L1440,224L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path></svg>
-            </div>
 
-            { (isOpen) && <Modal onClose={()=>setIsOpen(false)}><InputForm setIsOpen={()=>setIsOpen(false)} /></Modal> }
+            <section className="categories">
+                <h2>Popular Categories</h2>
+                <div className="category-grid">
+                    {['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Vegetarian', 'Quick Meals'].map((category) => (
+                        <div key={category} className="category-card">
+                            <div className="category-image">
+                                <img src={`/assets/categories/${category.toLowerCase()}.jpg`} alt={category} />
+                            </div>
+                            <h3>{category}</h3>
+                        </div>
+                    ))}
+                </div>
+            </section>
 
-            <div className='recipe'>
+            <section className="featured-recipes">
+                <div className="section-header">
+                    <h2>Trending Recipes</h2>
+                    <div className="view-all" onClick={() => navigate('/recipes')}>View All →</div>
+                </div>
                 <RecipeItems />
-            </div>
+            </section>
 
+            <section className="newsletter">
+                <div className="newsletter-content">
+                    <h2>Get Weekly Recipe Inspiration</h2>
+                    <p>Sign up for our newsletter and receive the best recipes directly to your inbox</p>
+                    <form className="newsletter-form">
+                        <input type="email" placeholder="Your email address" required />
+                        <button type="submit" className="primary-btn">Subscribe</button>
+                    </form>
+                </div>
+            </section>
 
-
-        </>
+            {isOpen && (
+                <Modal onClose={() => setIsOpen(false)}>
+                    <InputForm setIsOpen={() => setIsOpen(false)} />
+                </Modal>
+            )}
+        </div>
     );
 }
 
