@@ -76,11 +76,11 @@ li .login{
 }
 
 
-section{
-  height: 80vh;
-  width: 90%;
-  margin: 0 auto;
-}
+/*section{*/
+/*  height: 80vh;*/
+/*  width: 90%;*/
+/*  !*margin: 0 0 100px 0;*!*/
+/*}*/
 
 
 .home button{
@@ -332,7 +332,7 @@ auth-container {
 
 .form{
   width: 71%;
-  margin: 0 auto;
+  margin-top: 100px;
   text-align: center;
   /*justify-content: center;*/
 }
@@ -446,6 +446,8 @@ auth-container {
 }
 
 .hero {
+  height: 80vh;
+  width: 110%;
   display: flex;
   align-items: center;
   min-height: 80vh;
@@ -453,6 +455,7 @@ auth-container {
   padding: 2rem 5%;
   gap: 3rem;
   margin-top: 100px;
+  /*background-color: yellow;*/
 }
 
 
@@ -688,6 +691,9 @@ auth-container {
 
 
 .categories {
+  height: 80vh;
+  width: 90%;
+  margin: 0 0 100px 0;
   padding: 4rem 5%;
   background: var(--light);
 }
@@ -744,6 +750,10 @@ auth-container {
 .category-card h3 {
   padding: 1rem;
   font-size: 1.1rem;
+}
+
+.featured-recipes {
+  padding-left: 4rem;
 }
 
 .newsletter {

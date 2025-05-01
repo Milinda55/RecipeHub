@@ -50,7 +50,8 @@ function Home(props) {
                     {['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Vegetarian', 'Quick Meals'].map((category) => (
                         <div key={category} className="category-card">
                             <div className="category-image">
-                                <img src={`../assets/categories/${category.toLowerCase()}.png`} alt={category} />
+                                <img src={heroImage} alt='testImg' />
+                                {/*<img src={`../assets/categories/${category.toLowerCase()}.png`} alt={category} />*/}
                             </div>
                             <h3>{category}</h3>
                         </div>
