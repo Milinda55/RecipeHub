@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import axios from "axios";
 import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
+import {useNavigate} from "react-router-dom";
+import {AuthContext} from "./AuthContext.jsx";
 
 function InputForm({ setIsOpen }) {
     const [email, setEmail] = useState("");
@@ -9,6 +11,8 @@ function InputForm({ setIsOpen }) {
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
@@ -21,7 +25,9 @@ function InputForm({ setIsOpen }) {
 
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("user", JSON.stringify(res.data.user));
-            setIsOpen();
+            login(res.data.token, res.data.user)
+            setIsOpen(false);
+            navigate("/")
         } catch (err) {
             setError(err.response?.data?.error || "An error occurred");
         } finally {
