@@ -8,16 +8,25 @@ const userSignUp=async(req,res)=> {
     if(!email || !password) {
         return res.status(400).json({message:"Email and password is required"})
     }
-    let user = await User.findOne({email})
-    if (user) {
-        return res.status(400).json({message:"Email is already exist"})
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+        return res.status(409).json({
+            success: false,
+            message: "Email already exists"
+        });
     }
+
+    // let user = await User.findOne({email})
+    // if (user) {
+    //     return res.status(400).json({message:"Email is already exist"})
+    // }
     const hashPwd = await bcrypt.hash(password,10)
     const newUser = await User.create({
         email, password:hashPwd
     })
-    let token = jwt.sign({email, id:newUser._id},process.env.SECRET_KEY)
-    return res.status(200).json({token,user:newUser})
+    let token = jwt.sign({email, id:newUser._id},process.env.SECRET_KEY, { expiresIn: '1h' })
+    return res.status(201).json({success: true, token,user:{ id: newUser._id, email: newUser.email }, expiresIn: 3600})
 }
 
 const userLogin=async(req,res)=> {
