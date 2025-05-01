@@ -157,7 +157,7 @@ section{
 
 .modal{
   position: fixed;
-  top: 34%;
+  top: 14%;
   z-index: 10;
   padding: 2rem;
   border-radius: 6px;

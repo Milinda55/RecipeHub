@@ -6,6 +6,7 @@ import MainNavigation from "./components/MainNavigation.jsx";
 import axios from "axios";
 import AddFoodRecipe from "./pages/AddFoodRecipe.jsx";
 import EditRecipe from "./pages/EditRecipe.jsx";
+import { AuthProvider } from './components/AuthContext.jsx';
 
 const getAllRecipes = async() => {
     let allRecipes=[];
@@ -39,9 +40,9 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <>
+    <AuthProvider>
         <RouterProvider router={router}></RouterProvider>
-    </>
+    </AuthProvider>
   )
 }
 
