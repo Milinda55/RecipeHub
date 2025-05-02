@@ -25,33 +25,95 @@ function AddFoodRecipe() {
     }
 
     return (
-        <>
-            <div className='container'>
-                <form className='form' onSubmit={onHandleSubmit}>
-                    <div className='form-control'>
-                        <label>Title</label>
-                        <input type="text" className='input' name="title" onChange={onHandleChange}></input>
-                    </div>
-                    <div className='form-control'>
-                        <label>Time</label>
-                        <input type="text" className='input' name="time" onChange={onHandleChange}></input>
-                    </div>
-                    <div className='form-control'>
-                        <label>Ingredients</label>
-                        <textarea type="text" className='input-textarea' name="ingredients" rows="5" onChange={onHandleChange}></textarea>
-                    </div>
-                    <div className='form-control'>
-                        <label>Instructions</label>
-                        <textarea type="text" className='input-textarea' name="instructions" rows="5" onChange={onHandleChange}></textarea>
-                    </div>
-                    <div className='form-control'>
-                        <label>Recipe Image</label>
-                        <input type="file" className='input' name="file" onChange={onHandleChange}></input>
-                    </div>
-                    <button type="submit">Add Recipe</button>
-                </form>
+        <div className="form-container">
+            <div className="form-header">
+                <h2>Share Your Recipe</h2>
+                <p>Fill in the details below to add your delicious recipe to our collection</p>
             </div>
-        </>
+
+            <form className="recipe-form" onSubmit={onHandleSubmit}>
+                <div className="form-grid">
+                    <div className="form-group">
+                        <label className="form-label">Recipe Title</label>
+                        <input
+                            type="text"
+                            className="form-input"
+                            name="title"
+                            onChange={onHandleChange}
+                            placeholder="e.g. Creamy Garlic Pasta"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="form-label">Preparation Time</label>
+                        <input
+                            type="text"
+                            className="form-input"
+                            name="time"
+                            onChange={onHandleChange}
+                            placeholder="e.g. 30 mins"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group full-width">
+                        <label className="form-label">Ingredients</label>
+                        <textarea
+                            className="form-textarea"
+                            name="ingredients"
+                            rows="5"
+                            onChange={onHandleChange}
+                            placeholder="Enter ingredients separated by commas (e.g. 2 cups flour, 1 tbsp sugar)"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div className="form-group full-width">
+                        <label className="form-label">Instructions</label>
+                        <textarea
+                            className="form-textarea"
+                            name="instructions"
+                            rows="8"
+                            onChange={onHandleChange}
+                            placeholder="Provide step-by-step instructions"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div className="form-group full-width">
+                        <label className="form-label">Recipe Image</label>
+                        <div className="file-upload">
+                            <label htmlFor="file-upload" className="file-upload-label">
+              <span className="file-upload-text">
+                {recipeData.file ? recipeData.file.name : 'Choose an image...'}
+              </span>
+                                <span className="file-upload-button">Browse</span>
+                            </label>
+                            <input
+                                id="file-upload"
+                                type="file"
+                                className="file-input"
+                                name="file"
+                                onChange={onHandleChange}
+                                accept="image/*"
+                                required
+                            />
+                        </div>
+                        <p className="file-hint">Upload a high-quality image of your finished dish</p>
+                    </div>
+                </div>
+
+                <div className="form-actions">
+                    <button type="submit" className="submit-button">
+                        <span>Add Recipe</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
     );
 }
 
