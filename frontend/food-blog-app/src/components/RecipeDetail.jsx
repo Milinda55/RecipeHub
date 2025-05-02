@@ -92,14 +92,19 @@ function RecipeDetail() {
                 <div className="ingredients-section">
                     <h2>Ingredients</h2>
                     <ul className="ingredients-list">
-                        {Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0
-                            ? recipe.ingredients[0]
-                                .split(',')
-                                .map((ingredient, index) => (
+                        {Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 ? (
+                            recipe.ingredients.length === 1
+                                ? recipe.ingredients[0].split(',').map((ingredient, index) => (
                                     <li key={index}>{ingredient.trim()}</li>
                                 ))
-                            : <li>No ingredients listed</li>}
+                                : recipe.ingredients.map((ingredient, index) => (
+                                    <li key={index}>{ingredient.trim()}</li>
+                                ))
+                        ) : (
+                            <li>No ingredients listed</li>
+                        )}
                     </ul>
+
 
                 </div>
 

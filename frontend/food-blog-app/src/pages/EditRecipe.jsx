@@ -83,7 +83,7 @@ function EditRecipe() {
                             name="ingredients"
                             rows="5"
                             onChange={onHandleChange}
-                            value={Array.isArray(recipeData.ingredients) ? recipeData.ingredients.join(', ') : recipeData.ingredients || ''}
+                            value={Array.isArray(recipeData.ingredients) ? recipeData.ingredients.join(',') : recipeData.ingredients || ''}
                             placeholder="Enter ingredients separated by commas (e.g. 2 cups flour, 1 tbsp sugar)"
                             required
                         ></textarea>

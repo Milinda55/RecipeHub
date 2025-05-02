@@ -89,7 +89,7 @@ function RecipeItems(props) {
                             <div className='card-meta'>
                             <span className='meta-item'>
                                 <BsStopwatchFill className='meta-icon' />
-                                {item.time} mins
+                                {item.time}
                             </span>
                                 <span className='meta-item'>
                                 <FaUtensils className='meta-icon' />
