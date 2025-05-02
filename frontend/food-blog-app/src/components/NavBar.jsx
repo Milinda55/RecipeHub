@@ -31,7 +31,7 @@ function NavBar() {
         <>
             <header>
                 <div className="header-container">
-                    {/* Logo */}
+
                     <div className="logo-container">
                         <img src={logo} alt="logo" className="logo"/>
                     </div>
@@ -54,7 +54,6 @@ function NavBar() {
                         </div>
                     </div>
 
-                    {/* Navigation Links */}
                     <nav className="nav-links">
                         <ul>
                             <li>
