@@ -97,7 +97,7 @@ function RecipeItems(props) {
                             </span>
                             </div>
                             <p className='card-description'>
-                                {item.description || 'A delicious recipe you must try!'}
+                                {item.instructions || 'A delicious recipe you must try!'}
                             </p>
                             <div className='card-actions'>
                                 <Link to={`/recipe/${item._id}`} className='view-btn'>
