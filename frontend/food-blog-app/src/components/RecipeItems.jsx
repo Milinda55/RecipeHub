@@ -24,12 +24,6 @@ function RecipeItems(props) {
         setAllRecipes(recipes);
     }, [recipes]);
 
-    // useEffect(()=> {
-    //     const token = localStorage.getItem("token")
-    //     setIsLoggedIn(!!token)
-    //     setAllRecipes(recipes)
-    // },[recipes])
-
     const onDelete=async(id)=> {
         await axios.delete(`http://localhost:5000/recipe/${id}`)
             .then((res)=>console.log(res))
@@ -57,7 +51,21 @@ function RecipeItems(props) {
         <div className='recipe-grid'>
             {filteredRecipes?.map((item, index) => {
                 const isFavourite = favItems.some(res => res._id === item._id);
-                const difficulty = ['Easy', 'Medium', 'Hard'][Math.floor(Math.random() * 3)];
+                const getDifficulty = (time) => {
+                    if (!time) return "Easy";
+
+                    const timeNumber = typeof time === 'string'
+                        ? parseInt(time.replace(/\D/g, ''), 10)
+                        : Number(time);
+
+                    if (isNaN(timeNumber)) return "Easy";
+
+                    return timeNumber <= 10 ? "Easy" :
+                        timeNumber <= 20 ? "Medium" : "Hard";
+                };
+
+                const difficulty = getDifficulty(item.time);
+
 
                 return (
                     <div key={index} className='recipe-card'>

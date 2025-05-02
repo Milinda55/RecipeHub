@@ -103,7 +103,7 @@ function Home(props) {
             <section className="featured-recipes">
                 <div className="section-header">
                     <h2>Trending Recipes</h2>
-                    <div className="view-all" onClick={() => navigate('/recipes')}>View All →</div>
+                    <div className="view-all" onClick={() => document.querySelector('.featured-recipes').scrollIntoView({ behavior: 'smooth' })}>View All →</div>
                 </div>
                 <RecipeItems />
             </section>

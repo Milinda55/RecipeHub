@@ -36,7 +36,6 @@ function NavBar() {
                         <img src={logo} alt="logo" className="logo"/>
                     </div>
 
-                    {/* Search Bar - Centered */}
                     <div className="search-container">
                         <div className="search-bar">
                             <input
@@ -56,10 +55,10 @@ function NavBar() {
 
                     <nav className="nav-links">
                         <ul>
-                            <li>
+                            <li onClick={() => document.querySelector('.home-container').scrollIntoView({ behavior: 'smooth' })}>
                                 <NavLink to="/" className={({isActive}) => isActive ? "active" : ""}>Home</NavLink>
                             </li>
-                            <li onClick={() => handleProtectedNavClick("/myRecipe")}>
+                            <li onClick={() => document.querySelector('.featured-recipes').scrollIntoView({ behavior: 'smooth' })}>
                                 <NavLink
                                     to={isLoggedIn ? "/myRecipe" : "#"}
                                     className={({isActive}) => isActive ? "active" : ""}
@@ -67,7 +66,7 @@ function NavBar() {
                                     Recipes
                                 </NavLink>
                             </li>
-                            <li onClick={() => handleProtectedNavClick("/favRecipe")}>
+                            <li onClick={() => document.querySelector('.featured-recipes').scrollIntoView({ behavior: 'smooth' })}>
                                 <NavLink
                                     to={isLoggedIn ? "/favRecipe" : "#"}
                                     className={({isActive}) => isActive ? "active" : ""}

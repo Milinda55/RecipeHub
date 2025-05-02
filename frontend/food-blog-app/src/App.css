@@ -673,7 +673,34 @@ auth-container {
   }
 }
 
+.current-image-message {
+  font-size: 0.875rem;
+  color: var(--gray);
+  margin-top: 0.5rem;
+}
 
+.current-image-message span {
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.edit-form .submit-button {
+  background-color: var(--secondary);
+}
+
+.edit-form .submit-button:hover {
+  background-color: #3aa76d;
+}
+
+.view-all {
+  cursor: pointer;
+  width: 8%;
+
+  &:hover {
+    font-weight: bold;
+    color: #307bbd;
+  }
+}
 
 .container{
   display: flex;
