@@ -55,25 +55,57 @@ function NavBar() {
 
                     <nav className="nav-links">
                         <ul>
-                            <li onClick={() => document.querySelector('.home-container').scrollIntoView({ behavior: 'smooth' })}>
-                                <NavLink to="/" className={({isActive}) => isActive ? "active" : ""}>Home</NavLink>
+                            <li>
+                                <NavLink to={isLoggedIn ? "/" : "#"} className={({isActive}) => isActive ? "active" : ""}
+                                         onClick={(e) => {
+                                             if (!isLoggedIn) {
+                                                 e.preventDefault();
+                                                 handleAuthClick();
+                                             } else {
+                                                 document.querySelector('.home-container').scrollIntoView({
+                                                     behavior: 'smooth'
+                                                 });
+                                             }
+                                         }}
+                                >
+                                    Home
+                                </NavLink>
                             </li>
-                            <li onClick={() => document.querySelector('.featured-recipes').scrollIntoView({ behavior: 'smooth' })}>
-                                <NavLink
-                                    to={isLoggedIn ? "/myRecipe" : "#"}
-                                    className={({isActive}) => isActive ? "active" : ""}
+
+                            <li>
+                                <NavLink to={isLoggedIn ? "/myRecipe" : "#"} className={({isActive}) => isActive ? "active" : ""}
+                                         onClick={(e) => {
+                                             if (!isLoggedIn) {
+                                                 e.preventDefault();
+                                                 handleAuthClick();
+                                             } else {
+                                                 document.querySelector('.featured-recipes').scrollIntoView({
+                                                     behavior: 'smooth'
+                                                 });
+                                             }
+                                         }}
                                 >
                                     Recipes
                                 </NavLink>
                             </li>
-                            <li onClick={() => document.querySelector('.featured-recipes').scrollIntoView({ behavior: 'smooth' })}>
-                                <NavLink
-                                    to={isLoggedIn ? "/favRecipe" : "#"}
-                                    className={({isActive}) => isActive ? "active" : ""}
+
+                            <li>
+                                <NavLink to={isLoggedIn ? "/favRecipe" : "#"} className={({isActive}) => isActive ? "active" : ""}
+                                         onClick={(e) => {
+                                             if (!isLoggedIn) {
+                                                 e.preventDefault();
+                                                 handleAuthClick();
+                                             } else {
+                                                 document.querySelector('.featured-recipes').scrollIntoView({
+                                                     behavior: 'smooth'
+                                                 });
+                                             }
+                                         }}
                                 >
-                                    Favorites
+                                    Favourites
                                 </NavLink>
                             </li>
+
                             <li onClick={handleAuthClick} className="auth-item">
                                 <p className='auth-button'>
                                     {isLoggedIn ? (

@@ -44,6 +44,17 @@ function Home(props) {
         }
     }
 
+    const browseRecipe=()=> {
+        let token = localStorage.getItem("token")
+        if (token) {
+            document.querySelector('.featured-recipes').scrollIntoView({
+                behavior: 'smooth'
+            });
+        } else {
+            setIsOpen(true)
+        }
+    }
+
     return (
         <div className="home-container">
             <section className="hero">
@@ -56,7 +67,7 @@ function Home(props) {
                         <button className="primary-btn" onClick={addRecipe}>
                             Share Your Recipe
                         </button>
-                        <button className="secondary-btn" onClick={() => document.querySelector('.featured-recipes').scrollIntoView({ behavior: 'smooth' })}>
+                        <button className="secondary-btn" onClick={browseRecipe}>
                             Browse Recipes
                         </button>
                     </div>
