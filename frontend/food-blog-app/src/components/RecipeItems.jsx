@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Link, useLoaderData} from "react-router-dom";
+import {Link, useLoaderData, useLocation, useNavigate} from "react-router-dom";
 import foodImg from '../assets/Food-recipe.png';
 import { BsStopwatchFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa6";
@@ -11,46 +11,96 @@ import {AuthContext} from "./AuthContext.jsx";
 function RecipeItems(props) {
 
     const recipes=useLoaderData();
-    const [allRecipes, setAllRecipes] = useState()
+    const [allRecipes, setAllRecipes] = useState([])
+    const location = useLocation();
+    const navigate = useNavigate();
     // const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const { isLoggedIn, user } = useContext(AuthContext);
     let path = window.location.pathname === "/myRecipe" ? true : false;
-    let favItems = JSON.parse(localStorage.getItem("fav")) ?? []
-    const [isFavRecipe, setIsFavRecipe] = useState(false)
+    // let favItem = JSON.parse(localStorage.getItem("fav")) ?? []
+    const [favItems, setFavItems] = useState(JSON.parse(localStorage.getItem("fav")) || []);
+    const [forceUpdate, setForceUpdate] = useState(0);
     // console.log(allRecipes);
 
-    const { isLoggedIn } = useContext(AuthContext);
-
     useEffect(() => {
-        setAllRecipes(recipes);
+        setAllRecipes(Array.isArray(recipes) ? recipes : []);
     }, [recipes]);
 
-    const onDelete=async(id)=> {
-        await axios.delete(`http://localhost:5000/recipe/${id}`)
-            .then((res)=>console.log(res))
-        setAllRecipes(recipes=>recipes.filter(recipe=>recipe._id !== id))
-        let filterItem = favItems.filter(recipe => recipe._id !== id)
-        localStorage.setItem("fav", JSON.stringify(filterItem))
-    }
+    useEffect(() => {
+        const storedFavs = JSON.parse(localStorage.getItem("fav")) || [];
+        setFavItems(storedFavs);
+    }, [forceUpdate]);
+
+    const onDelete = async(id) => {
+        try {
+            await axios.delete(`http://localhost:5000/recipe/${id}`);
+            setAllRecipes(prev => prev.filter(recipe => recipe._id !== id));
+            const updatedFavs = favItems.filter(recipe => recipe._id !== id);
+            localStorage.setItem("fav", JSON.stringify(updatedFavs));
+            setFavItems(updatedFavs);
+        } catch (error) {
+            console.error("Error deleting recipe:", error);
+        }
+    };
 
     const favRecipe = (item) => {
         if (!isLoggedIn) {
+            navigate('/login');
             return;
         }
 
-        let filterItem = favItems.filter(recipe => recipe._id !== item._id)
-        favItems = favItems.filter(recipe => recipe._id === item._id).length === 0 ? [...favItems, item] : filterItem
-        localStorage.setItem("fav", JSON.stringify(favItems))
-        setAllRecipes(prev => [...prev])
+        const isFavorited = favItems.some(fav => fav._id === item._id);
+        const updatedFavs = isFavorited
+            ? favItems.filter(recipe => recipe._id !== item._id)
+            : [...favItems, item];
+        localStorage.setItem("fav", JSON.stringify(updatedFavs))
+        setFavItems(updatedFavs);
+        setForceUpdate(prev => prev + 1);
     }
 
-    const filteredRecipes = path ? allRecipes : isLoggedIn ?
-        allRecipes : allRecipes?.filter(recipe => !favItems.some(fav => fav._id === recipe._id))
+    const getFilteredRecipes = () => {
+        if (!isLoggedIn) return [];
+
+        switch(location.pathname) {
+            case "/myRecipe/":
+                return allRecipes
+                    .filter(recipe => recipe._id === user?._id)
+                    .sort((a, b) => a.title.localeCompare(b.title));
+            case "/favRecipe/":
+                return allRecipes
+                    .filter(recipe => favItems.some(fav => fav._id === recipe._id))
+                    .sort((a, b) => a.title.localeCompare(b.title));
+            default:
+                return [...allRecipes].sort((a, b) => a.title.localeCompare(b.title));
+        }
+    };
+
+    const filteredRecipes = getFilteredRecipes();
+
+    if (recipes === undefined) {
+        return <div className="loading">Loading recipes...</div>;
+    }
+
+
+    if (filteredRecipes.length === 0) {
+        return (
+            <div className="empty-state">
+                {!isLoggedIn ? "Please log in to view recipes" :
+                    location.pathname === "/myRecipe" ? "You haven't added any recipes yet" :
+                        location.pathname === "/favRecipe" ? "No favorite recipes yet" :
+                            "No recipes available"}
+            </div>
+        );
+    }
+
+    // const filteredRecipes = path ? allRecipes : isLoggedIn ?
+    //     allRecipes : allRecipes?.filter(recipe => !favItem.some(fav => fav._id === recipe._id))
 
 
     return (
         <div className='recipe-grid'>
             {filteredRecipes?.map((item, index) => {
-                const isFavourite = favItems.some(res => res._id === item._id);
+                const isFavourite = favItems.some(fav => fav._id === item._id);
                 const getDifficulty = (time) => {
                     if (!time) return "Easy";
 

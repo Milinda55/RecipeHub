@@ -3,7 +3,7 @@ import React from 'react';
 function Footer(props) {
     return (
         <div className='footer'>
-            <p>&copy; Food Recipe Application</p>
+            <p>&copy; Recipe Hub Food Blog Application</p>
 
         </div>
     );
