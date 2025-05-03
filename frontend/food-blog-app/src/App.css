@@ -1388,6 +1388,95 @@ auth-container {
   animation: spin 1s linear infinite;
 }
 
+/* Feedback animation */
+.feedback-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.feedback-animation h3 {
+  margin-top: 1rem;
+  color: var(--dark);
+}
+
+.feedback-animation p {
+  color: var(--gray);
+  margin-top: 0.5rem;
+}
+
+/* Validation styles */
+.validation-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.validation-icon .valid {
+  color: var(--secondary);
+}
+
+.validation-icon .invalid {
+  color: var(--primary);
+}
+
+/* Password strength */
+.password-strength {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.requirement {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.requirement.met {
+  color: var(--secondary);
+}
+
+.requirement:not(.met) {
+  color: var(--gray);
+}
+
+/* Terms checkbox */
+.terms-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.terms-checkbox a {
+  color: var(--secondary);
+  text-decoration: none;
+}
+
+.terms-checkbox a:hover {
+  text-decoration: underline;
+}
+
+/* Input states */
+.form-input.invalid {
+  border-color: var(--primary);
+}
+
+.hint {
+  color: var(--primary);
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: block;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
