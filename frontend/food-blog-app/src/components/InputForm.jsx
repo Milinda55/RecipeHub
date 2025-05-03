@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
 import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
 import {useNavigate} from "react-router-dom";
@@ -10,9 +10,49 @@ function InputForm({ setIsOpen }) {
     const [isSignUp, setIsSignUp] = useState(false);
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showFeedback, setShowFeedback] = useState(null);
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [acceptedTerms, setAcceptedTerms] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
+    const [passwordRequirements, setPasswordRequirements] = useState({
+        length: false,
+        uppercase: false,
+        specialChar: false,
+    });
+    const isNameValid = formData.name.trim().split(/\s+/).length >= 2 && formData.name.trim().length >= 4;
+
+    const passwordsMatch = formData.password === formData.confirmPassword;
+
+    useEffect(() => {
+        if (formData.password) {
+            setPasswordRequirements({
+                length: formData.password.length >= 8,
+                uppercase: /[A-Z]/.test(formData.password),
+                specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password),
+            });
+        }
+    }, [formData.password]);
+
+    const isSignUpValid = isSignUp
+        ? isNameValid &&
+        Object.values(passwordRequirements).every(Boolean) &&
+        passwordsMatch &&
+        acceptedTerms
+        : true;
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+        setError("");
+    };
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
