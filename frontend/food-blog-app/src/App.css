@@ -274,16 +274,16 @@ header {
   cursor: pointer;
 }
 
-.modal{
-  position: fixed;
-  top: 14%;
-  z-index: 10;
-  padding: 2rem;
-  border-radius: 6px;
-  border:none;
-  left:30%;
-  width: 40%;
-}
+/*.modal{*/
+/*  position: fixed;*/
+/*  top: 14%;*/
+/*  z-index: 10;*/
+/*  padding: 2rem;*/
+/*  border-radius: 6px;*/
+/*  border:none;*/
+/*  left:30%;*/
+/*  width: 40%;*/
+/*}*/
 
 .backdrop{
   position: fixed;
@@ -295,24 +295,56 @@ header {
   z-index: 9;
 }
 
-auth-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 2rem;
+.auth-modal-container {
+  position: fixed;
+  top: 100px;
+  left: 30%;
+  right: 30%;
+  bottom: 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.auth-container {
+  background-color: white;
   border-radius: 12px;
-  background: white;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.form-scroll-container {
+  padding: 10px 20px 0;
+  overflow-y: auto;
+  max-height: calc(75vh - 150px);
+}
+
+/* Password fields layout */
+.password-fields-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
 }
 
 .auth-header {
   text-align: center;
-  margin-bottom: 2rem;
+  /*margin-bottom: 2rem;*/
 }
 
 .auth-header h2 {
   color: #2d3748;
   font-size: 1.75rem;
   margin-bottom: 0.5rem;
+  margin-top: 20px;
 }
 
 .auth-header p {
@@ -323,7 +355,7 @@ auth-container {
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .form-group {
@@ -372,7 +404,7 @@ auth-container {
 
 .password-toggle {
   position: absolute;
-  right: 1rem;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
@@ -383,7 +415,8 @@ auth-container {
 }
 
 .submit-btn {
-  width: 100%;
+  margin: 0 20px;
+  width: calc(100% - 40px);
   padding: 0.75rem;
   border: none;
   border-radius: 8px;
@@ -393,7 +426,6 @@ auth-container {
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s;
-  margin-top: 0.5rem;
 }
 
 .submit-btn:hover {
@@ -407,7 +439,7 @@ auth-container {
 
 .auth-footer {
   text-align: center;
-  font-size: 0.9rem;
+  padding: 0 20px 20px;
   color: #718096;
 }
 
@@ -417,8 +449,7 @@ auth-container {
   color: #4299e1;
   font-weight: 600;
   cursor: pointer;
-  padding: 0.2rem;
-  margin-left: 0.3rem;
+  padding: 0 5px;
 }
 
 .switch-mode:hover {
@@ -529,7 +560,7 @@ auth-container {
 }
 
 .form-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .form-group.full-width {
@@ -548,7 +579,7 @@ auth-container {
   padding: 0.75rem 1rem;
   border: 2px solid var(--light-gray);
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   transition: var(--transition);
   background-color: var(--light);
 }
@@ -1411,7 +1442,7 @@ auth-container {
 /* Validation styles */
 .validation-icon {
   position: absolute;
-  right: 10px;
+  right: 35px;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -1452,7 +1483,6 @@ auth-container {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin: 1rem 0;
   font-size: 0.9rem;
 }
 
@@ -1476,6 +1506,8 @@ auth-container {
   margin-top: 0.3rem;
   display: block;
 }
+
+
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -1535,5 +1567,9 @@ auth-container {
 
   .recipe-meta h1 {
     font-size: 2rem;
+  }
+
+  .password-fields-container {
+    grid-template-columns: 1fr;
   }
 }
