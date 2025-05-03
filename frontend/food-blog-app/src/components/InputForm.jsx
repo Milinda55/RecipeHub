@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
-import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
+import {FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash, FaCheck, FaTimes} from 'react-icons/fa';
 import {useNavigate} from "react-router-dom";
 import {AuthContext} from "./AuthContext.jsx";
 import Lottie from 'lottie-react';
@@ -113,16 +113,43 @@ function InputForm({ setIsOpen }) {
             </div>
 
             <form className='auth-form' onSubmit={handleOnSubmit}>
+                {isSignUp && (
                 <div className='form-group'>
                     <label className="input-label">
-                        <FaEnvelope className="input-icon" />
+                        <FaUser className="input-icon" />
+                        <span>Full Name</span>
+                    </label>
+                        <div className="input-wrapper">
+                            <input
+                                type="text"
+                                name="name"
+                                className={`form-input ${formData.name && !isNameValid ? 'invalid' : ''}`}
+                                onChange={handleChange}
+                                placeholder="Amila Prasad"
+                                required
+                            />
+                            {formData.name && (
+                                <span className="validation-icon">
+                                    {isNameValid ? <FaCheck className="valid" /> : <FaTimes className="invalid" />}
+                                </span>
+                            )}
+                        </div>
+                    {formData.name && !isNameValid && (
+                        <small className="hint">Must be at least 2 words and 4 characters</small>
+                    )}
+                </div>)}
+
+                <div className='form-group'>
+                    <label className="input-label">
+                        <FaLock className="input-icon" />
                         <span>Email</span>
                     </label>
                     <div className="input-wrapper">
                         <input
                             type="email"
+                            name="email"
                             className="form-input"
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={handleChange}
                             placeholder="your@email.com"
                             required
                         />
@@ -137,8 +164,9 @@ function InputForm({ setIsOpen }) {
                     <div className="input-wrapper">
                         <input
                             type={showPassword ? "text" : "password"}
+                            name="password"
                             className="form-input"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={handleChange}
                             placeholder="••••••••"
                             required
                         />
