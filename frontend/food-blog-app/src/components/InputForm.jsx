@@ -3,6 +3,9 @@ import axios from "axios";
 import { FaUser, FaLock, FaEnvelope, FaEye, FaEyeSlash } from 'react-icons/fa';
 import {useNavigate} from "react-router-dom";
 import {AuthContext} from "./AuthContext.jsx";
+import Lottie from 'lottie-react';
+import successAnimation from '../assets/success-animation.json';
+import errorAnimation from '../assets/error-animation.json';
 
 function InputForm({ setIsOpen }) {
     const [email, setEmail] = useState("");
@@ -60,20 +63,47 @@ function InputForm({ setIsOpen }) {
         setError("");
 
         try {
-            let endpoint = isSignUp ? "signUp" : "login";
-            const res = await axios.post(`http://localhost:5000/${endpoint}`, { email, password });
+            const endpoint = isSignUp ? "signUp" : "login";
+            const payload = isSignUp
+                ? { name: formData.name, email: formData.email, password: formData.password }
+                : { email: formData.email, password: formData.password };
+            const res = await axios.post(`http://localhost:5000/${endpoint}`, payload);
 
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("user", JSON.stringify(res.data.user));
-            login(res.data.token, res.data.user)
-            setIsOpen(false);
-            navigate("/")
+            setShowFeedback('success');
+
+            setTimeout(()=> {
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+                login(res.data.token, res.data.user)
+                setIsOpen(false);
+                navigate("/")
+            }, 1500)
         } catch (err) {
             setError(err.response?.data?.error || "An error occurred");
+            setShowFeedback('error');
+            setTimeout(() => setShowFeedback(null), 3000);
         } finally {
             setIsLoading(false);
         }
     };
+
+    if (showFeedback) {
+        return (
+            <div className="feedback-animation">
+                <Lottie
+                    animationData={showFeedback === 'success' ? successAnimation : errorAnimation}
+                    loop={false}
+                    style={{ height: 150 }}
+                />
+                <h3>{showFeedback === 'success' ? 'Success!' : 'Error'}</h3>
+                <p>
+                    {showFeedback === 'success'
+                        ? isSignUp ? 'Account created successfully!' : 'Logged in successfully!'
+                        : error}
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div className="auth-container">
