@@ -178,14 +178,74 @@ function InputForm({ setIsOpen }) {
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
                     </div>
+
+                    {isSignUp && formData.password && (
+                        <div className="password-strength">
+                            <div className={`requirement ${passwordRequirements.length ? 'met' : ''}`}>
+                                {passwordRequirements.length ? <FaCheck /> : <FaTimes />}
+                                <span>8+ characters</span>
+                            </div>
+                            <div className={`requirement ${passwordRequirements.uppercase ? 'met' : ''}`}>
+                                {passwordRequirements.uppercase ? <FaCheck /> : <FaTimes />}
+                                <span>Uppercase letter</span>
+                            </div>
+                            <div className={`requirement ${passwordRequirements.specialChar ? 'met' : ''}`}>
+                                {passwordRequirements.specialChar ? <FaCheck /> : <FaTimes />}
+                                <span>Special character</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
+
+                {isSignUp && (
+                    <div className='form-group'>
+                        <label className="input-label">
+                            <FaLock className="input-icon" />
+                            <span>Confirm Password</span>
+                        </label>
+                        <div className="input-wrapper">
+                            <input
+                                type={showConfirmPassword ? "text" : "password"}
+                                name="confirmPassword"
+                                className={`form-input ${formData.confirmPassword && !passwordsMatch ? 'invalid' : ''}`}
+                                onChange={handleChange}
+                                placeholder="••••••••"
+                                required
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
+                                {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                        </div>
+                        {formData.confirmPassword && !passwordsMatch && (
+                            <small className="hint">Passwords don't match</small>
+                        )}
+                    </div>
+                )}
+
+                {isSignUp && (
+                    <div className="terms-checkbox">
+                        <input
+                            type="checkbox"
+                            id="acceptTerms"
+                            checked={acceptedTerms}
+                            onChange={(e) => setAcceptedTerms(e.target.checked)}
+                        />
+                        <label htmlFor="acceptTerms">
+                            I accept the <a href="/terms" target="_blank">Terms and Conditions</a>
+                        </label>
+                    </div>
+                )}
 
                 {error && <div className='error-message'>{error}</div>}
 
                 <button
                     type="submit"
                     className="submit-btn"
-                    disabled={isLoading}
+                    disabled={isLoading || (isSignUp && !isSignUpValid)}
                 >
                     {isLoading ? (
                         'Processing...'
@@ -203,6 +263,12 @@ function InputForm({ setIsOpen }) {
                             onClick={() => {
                                 setIsSignUp(prev => !prev);
                                 setError("");
+                                setFormData({
+                                    name: '',
+                                    email: '',
+                                    password: '',
+                                    confirmPassword: ''
+                                });
                             }}
                         >
                             {isSignUp ? ' Log In' : ' Sign Up'}
