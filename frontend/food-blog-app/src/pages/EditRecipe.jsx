@@ -44,7 +44,10 @@ function EditRecipe() {
     return (
         <div className="form-container">
             <div className="form-header">
-                <h2>Edit Your Recipe</h2>
+                <div className="form-header-back">
+                    <h1 onClick={() => navigate(-1)}>&lt;</h1>
+                    <h2>Share Your Recipe</h2>
+                </div>
                 <p>Update the details of your delicious recipe below</p>
             </div>
 

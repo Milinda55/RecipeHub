@@ -162,7 +162,7 @@ function InputForm({setIsOpen}) {
                             </div>
                         </div>
 
-                        <div className="password-fields-container">
+                        <div className={`password-fields-container ${isSignUp ? 'signup-mode' : 'login-mode'}`}>
                             <div className='form-group'>
                                 <label className="input-label">
                                     <FaLock className="input-icon"/>

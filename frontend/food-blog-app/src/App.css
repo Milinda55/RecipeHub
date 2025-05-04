@@ -335,6 +335,22 @@ header {
   gap: 15px;
 }
 
+/* Password fields container */
+.password-fields-container {
+  display: grid;
+  gap: 15px;
+}
+
+/* Login mode - single full-width field */
+.password-fields-container.login-mode {
+  grid-template-columns: 1fr;
+}
+
+/* Signup mode - two side-by-side fields */
+.password-fields-container.signup-mode {
+  grid-template-columns: 1fr 1fr;
+}
+
 .auth-header {
   text-align: center;
   /*margin-bottom: 2rem;*/
@@ -1507,7 +1523,18 @@ header {
   display: block;
 }
 
+.form-header-back {
+  display: flex;
+  justify-content: space-between;
 
+  & > h2 {
+    margin: 0 auto;
+  }
+
+  & > h1 {
+    cursor: pointer;
+  }
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -1570,6 +1597,10 @@ header {
   }
 
   .password-fields-container {
+    grid-template-columns: 1fr;
+  }
+
+  .password-fields-container.signup-mode {
     grid-template-columns: 1fr;
   }
 }

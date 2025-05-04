@@ -27,7 +27,11 @@ function AddFoodRecipe() {
     return (
         <div className="form-container">
             <div className="form-header">
-                <h2>Share Your Recipe</h2>
+                <div className="form-header-back">
+                    <h1 onClick={() => navigate(-1)}>&lt;</h1>
+                    <h2>Share Your Recipe</h2>
+                </div>
+
                 <p>Fill in the details below to add your delicious recipe to our collection</p>
             </div>
 
