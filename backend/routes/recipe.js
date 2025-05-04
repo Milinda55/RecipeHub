@@ -1,5 +1,5 @@
 const express = require('express');
-const {getRecipes, getRecipe, addRecipes, editRecipe, deleteRecipe, upload} = require("../controller/recipeController");
+const { getRecipe, addRecipes, editRecipe, deleteRecipe, upload, getCategories, getRecipes} = require("../controller/recipeController");
 const verifyToken = require("../middleware/auth");
 const router = express.Router();
 
@@ -8,6 +8,7 @@ router.get('/:id', getRecipe);
 router.post('/', upload.single('file'),verifyToken, addRecipes);
 router.put('/:id', upload.single('file'),editRecipe);
 router.delete('/:id', deleteRecipe);
+router.get('/categories', getCategories);
 
 
 module.exports = router;
