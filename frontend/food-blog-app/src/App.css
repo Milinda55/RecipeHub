@@ -297,9 +297,9 @@ header {
 
 .auth-modal-container {
   position: fixed;
-  top: 100px;
-  left: 30%;
-  right: 30%;
+  top: 0;
+  left: 0;
+  right: 0;
   bottom: 0;
   background-color: transparent;
   display: flex;
@@ -516,7 +516,7 @@ header {
   border-bottom: 1px solid #307bbd;
   color: rgb(4,136,170);
   font-size: 14px;
-  color: #307bbd;
+  /*color: #307bbd;*/
 }
 
 .form .error{
@@ -1419,7 +1419,7 @@ header {
   animation: spin 1s linear infinite;
 }
 
-/* Feedback animation */
+ /*Feedback animation */
 .feedback-animation {
   display: flex;
   flex-direction: column;

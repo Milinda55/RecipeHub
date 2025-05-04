@@ -89,18 +89,22 @@ function InputForm({setIsOpen}) {
 
     if (showFeedback) {
         return (
-            <div className="feedback-animation">
-                <Lottie
-                    animationData={showFeedback === 'success' ? successAnimation : errorAnimation}
-                    loop={false}
-                    style={{height: 150}}
-                />
-                <h3>{showFeedback === 'success' ? 'Success!' : 'Error'}</h3>
-                <p>
-                    {showFeedback === 'success'
-                        ? isSignUp ? 'Account created successfully!' : 'Logged in successfully!'
-                        : error}
-                </p>
+            <div className="auth-modal-container">
+                <div className="auth-container">
+                    <div className="feedback-animation">
+                        <Lottie
+                            animationData={showFeedback === 'success' ? successAnimation : errorAnimation}
+                            loop={false}
+                            style={{ height: 150 }}
+                        />
+                        <h3>{showFeedback === 'success' ? 'Success!' : 'Error'}</h3>
+                        <p>
+                            {showFeedback === 'success'
+                                ? isSignUp ? 'Account created successfully!' : 'Logged in successfully!'
+                                : error}
+                        </p>
+                    </div>
+                </div>
             </div>
         );
     }
