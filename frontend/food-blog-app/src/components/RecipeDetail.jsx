@@ -28,7 +28,7 @@ function RecipeDetail() {
 
         fetchRecipe();
     }, [id]);
-
+    
     const toggleFavorite = () => {
         if (!isLoggedIn) return;
 
@@ -36,24 +36,29 @@ function RecipeDetail() {
             ? favItems.filter(item => item._id !== recipe._id)
             : [...favItems, recipe];
 
+
         localStorage.setItem("fav", JSON.stringify(updatedFavItems));
         setFavItems(updatedFavItems);
     };
 
+
     if (loading) return <div className="loading">Loading recipe...</div>;
     if (error) return <div className="error">Error: {error}</div>;
     if (!recipe) return <div className="not-found">Recipe not found</div>;
+
 
     const isFavorite = favItems.some(item => item._id === recipe._id);
     const difficulty =
         recipe.time <= 10 ? "Easy" :
             recipe.time <= 20 ? "Medium" : "Hard";
 
+
     return (
         <div className="recipe-detail-container">
             <button onClick={() => navigate(-1)} className="back-button">
                 <BsArrowLeft /> Back to recipes
             </button>
+
 
             <div className="recipe-header">
                 <div className="recipe-image-container">
@@ -75,18 +80,27 @@ function RecipeDetail() {
                     )}
                 </div>
 
+
                 <div className="recipe-meta">
                     <h1>{recipe.title}</h1>
+                    <div className="recipe-categories">
+                        {recipe.categories?.map(category => (
+                            <span key={category} className="category-badge">
+           {category}
+       </span>
+                        ))}
+                    </div>
                     <div className="meta-items">
-            <span className="meta-item">
-              <BsStopwatchFill /> {recipe.time}
-            </span>
+           <span className="meta-item">
+             <BsStopwatchFill /> {recipe.time}
+           </span>
                         <span className="meta-item">
-              <FaUtensils /> {recipe.category || 'Main Course'}
-            </span>
+             <FaUtensils /> {recipe.category || 'Main Course'}
+           </span>
                     </div>
                 </div>
             </div>
+
 
             <div className="recipe-content">
                 <div className="ingredients-section">
