@@ -163,6 +163,51 @@ function AddFoodRecipe() {
                         ></textarea>
                     </div>
 
+                    <div className="form-group full-width">
+                        <label className="form-label">Categories</label>
+                        <div className="category-selector">
+                            <div
+                                className="category-input"
+                                onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+                            >
+                                {recipeData.categories.length > 0 ? (
+                                    recipeData.categories.map(category => (
+                                        <span key={category} className="selected-category">
+                                           {category}
+                                            <button
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleCategoryToggle(category);
+                                                }}
+                                            >
+                                               &times;
+                                           </button>
+                                       </span>
+                                    ))
+                                ) : (
+                                    <span className="placeholder">Select categories...</span>
+                                )}
+                            </div>
+
+
+                            {showCategoryDropdown && (
+                                <div className="category-dropdown">
+                                    {availableCategories.map(category => (
+                                        <div
+                                            key={category}
+                                            className={`category-option ${recipeData.categories.includes(category) ? 'selected' : ''}`}
+                                            onClick={() => handleCategoryToggle(category)}
+                                        >
+                                            {category}
+                                            {recipeData.categories.includes(category) && <FaCheck />}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
 
                     <div className="form-group full-width">
                         <label className="form-label">Recipe Image</label>
