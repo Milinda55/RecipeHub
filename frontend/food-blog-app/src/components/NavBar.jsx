@@ -10,27 +10,15 @@ function NavBar() {
     const {isLoggedIn, user, logout} = useContext(AuthContext);
     const [searchQuery, setSearchQuery] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
-    const [categories, setCategories] = useState([]);
+    // const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
 
+    const categories = [
+        'breakfast', 'lunch', 'dinner', 'dessert',
+        'fast-food', 'pizza', 'kottu', 'burgers',
+        'snacks', 'smoothies', 'salads', 'beverages'
+    ];
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/recipe/categories');
-                const data = await response.json();
-                setCategories(data);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-                setCategories([
-                    'breakfast', 'lunch', 'dinner', 'dessert',
-                    'fast-food', 'pizza', 'kottu', 'burgers',
-                    'snacks', 'smoothies', 'salads', 'beverages'
-                ]);
-            }
-        };
-        fetchCategories();
-    }, []);
 
     const handleAuthClick = () => {
         if (isLoggedIn) {
@@ -50,7 +38,27 @@ function NavBar() {
     };
 
     const handleCategorySelect = (category) => {
-        navigate(`/category/${category}`);
+        setShowDropdown(false);
+        navigate('/');
+
+        window.dispatchEvent(new CustomEvent('filterRecipes', {
+            detail: { category: category.toLowerCase() }
+        }));
+
+        setTimeout(() => {
+            document.querySelector('.featured-recipes')?.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }, 100);
+    };
+
+
+    const handleAllRecipesClick = () => {
+        // Clear any category filter
+        window.dispatchEvent(new CustomEvent('categoryFilter', {
+            detail: null
+        }));
+        navigate('/');
         setShowDropdown(false);
     };
 
@@ -59,6 +67,12 @@ function NavBar() {
             setIsOpen(true);
         } else {
             navigate(path);
+            setTimeout(() => {
+                const element = document.querySelector('.featured-recipes');
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
         }
     };
 
@@ -68,7 +82,11 @@ function NavBar() {
                 <div className="header-container">
 
                     <div className="logo-container">
-                        <img src={logo} alt="logo" className="logo" onClick={() => navigate('/')} style={{cursor: 'pointer'}} />
+                        <img src={logo} alt="logo" className="logo" onClick={() => {
+                            navigate('/');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
+                        } style={{cursor: 'pointer'}} />
                     </div>
 
                     <div className="search-container">
@@ -98,6 +116,9 @@ function NavBar() {
                                         if (!isLoggedIn) {
                                             e.preventDefault();
                                             handleAuthClick();
+                                        } else {
+                                            navigate('/');
+                                            window.scrollTo({ top: 0, behavior: 'smooth' });
                                         }
                                     }}
                                 >
@@ -109,17 +130,25 @@ function NavBar() {
                                 <div
                                     className="dropdown-toggle"
                                     onClick={() => setShowDropdown(!showDropdown)}
+                                    onMouseEnter={() => setShowDropdown(true)}
+                                    onMouseLeave={() => setShowDropdown(false)}
                                 >
                                     All Recipes
                                     <span className={`dropdown-arrow ${showDropdown ? 'open' : ''}`}>▼</span>
                                 </div>
                                 {showDropdown && (
-                                    <div className="dropdown-menu">
+                                    <div
+                                        className="dropdown-menu"
+                                        onMouseEnter={() => setShowDropdown(true)}
+                                        onMouseLeave={() => setShowDropdown(false)}
+                                    >
                                         <div
                                             className="dropdown-item"
                                             onClick={() => {
-                                                navigate('/all-recipes');
                                                 setShowDropdown(false);
+                                                navigate('/');
+                                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                                window.dispatchEvent(new CustomEvent('filterRecipes', {detail: { category: null } }));
                                             }}
                                         >
                                             All Recipes
@@ -142,8 +171,14 @@ function NavBar() {
                                 <NavLink
                                     to={isLoggedIn ? "/myRecipe" : "#"}
                                     className={({isActive}) => isActive ? "active" : ""}
-                                    onClick={(e) => !isLoggedIn && handleAuthClick()}
-                                >
+                                    onClick={(e) => {
+                                        if (!isLoggedIn) {
+                                            e.preventDefault();
+                                            handleAuthClick();
+                                        } else {
+                                            handleProtectedNavClick("/myRecipe");
+                                        }
+                                    }}>
                                     My Recipes
                                 </NavLink>
                             </li>
@@ -152,8 +187,20 @@ function NavBar() {
                                 <NavLink
                                     to={isLoggedIn ? "/favRecipe" : "#"}
                                     className={({isActive}) => isActive ? "active" : ""}
-                                    onClick={(e) => !isLoggedIn && handleAuthClick()}
-                                >
+                                    onClick={(e) => {
+                                        if (!isLoggedIn) {
+                                            e.preventDefault();
+                                            handleAuthClick();
+                                        } else {
+                                            navigate("/favRecipe");
+                                            window.dispatchEvent(new CustomEvent('setCategory', { detail: null }));
+                                            setTimeout(() => {
+                                                document.querySelector('.featured-recipes')?.scrollIntoView({
+                                                    behavior: 'smooth'
+                                                });
+                                            }, 100);
+                                        }
+                                    }}>
                                     Favourites
                                 </NavLink>
                             </li>

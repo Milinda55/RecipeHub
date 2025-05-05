@@ -14,6 +14,7 @@ function RecipeItems({category}) {
 
     const recipes=useLoaderData();
     const [allRecipes, setAllRecipes] = useState([])
+    const [filteredRecipes, setFilteredRecipes] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
     // const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -39,26 +40,30 @@ function RecipeItems({category}) {
         const fetchRecipes = async () => {
             try {
                 const response = await axios.get("http://localhost:5000/recipe");
-                let recipes = response.data;
-
-                // Filter by category if one is selected
-                if (category) {
-                    recipes = recipes.filter(recipe =>
-                        recipe.categories &&
-                        recipe.categories.some(cat =>
-                            cat.toLowerCase() === category.toLowerCase()
-                        )
-                    );
-                }
-
-                setAllRecipes(recipes);
+                setAllRecipes(response.data);
             } catch (error) {
                 console.error("Error fetching recipes:", error);
             }
         };
-
         fetchRecipes();
-    }, [category]);
+    }, []);
+
+    useEffect(() => {
+        if (category) {
+            const filtered = allRecipes.filter(recipe =>
+                recipe.categories?.some(cat =>
+                    cat.toLowerCase() === category.toLowerCase()
+                )
+            );
+            setFilteredRecipes(filtered);
+        } else {
+            setFilteredRecipes(allRecipes);
+        }
+    }, [allRecipes, category]);
+
+    if (category && filteredRecipes.length === 0) {
+        return <div className="no-recipes">No recipes found in this category</div>;
+    }
 
 
     const onDelete = async(id) => {
@@ -116,8 +121,6 @@ function RecipeItems({category}) {
         }
     };
 
-
-    const filteredRecipes = getFilteredRecipes();
 
 
     if (recipes === undefined) {

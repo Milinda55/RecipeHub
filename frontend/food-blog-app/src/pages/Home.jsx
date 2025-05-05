@@ -25,6 +25,18 @@ function Home(props) {
     const heroImages = [heroImage1, heroImage2, heroImage3, heroImage4, heroImage5];
 
     useEffect(() => {
+        const handleFilterRecipes = (e) => {
+            setSelectedCategory(e.detail.category);
+        };
+
+        window.addEventListener('filterRecipes', handleFilterRecipes);
+        return () => {
+            window.removeEventListener('filterRecipes', handleFilterRecipes);
+        };
+    }, []);
+
+
+    useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % heroImages.length);
         }, 3000); // Change slide every 3 seconds
@@ -57,7 +69,11 @@ function Home(props) {
     }
 
     const handleCategoryClick = (category) => {
-        setSelectedCategory(category.toLowerCase());
+        const lowerCategory = category.toLowerCase();
+        setSelectedCategory(lowerCategory);
+        window.dispatchEvent(new CustomEvent('filterRecipes', {
+            detail: { category: lowerCategory }
+        }));
         document.querySelector('.featured-recipes').scrollIntoView({
             behavior: 'smooth'
         });
@@ -133,7 +149,10 @@ function Home(props) {
                     {selectedCategory && (
                         <div
                             className="view-all"
-                            onClick={() => setSelectedCategory(null)}
+                            onClick={() => {
+                                setSelectedCategory(null);
+                                window.dispatchEvent(new CustomEvent('filterRecipes', { detail: { category: null } }));
+                            }}
                         >
                             View All Recipes →
                         </div>

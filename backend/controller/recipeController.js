@@ -225,7 +225,28 @@ const getCategories = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: 'Error fetching categories' });
     }
+
+};
+
+const searchRecipes = async (req, res) => {
+    try {
+        const query = req.query.q;
+        if (!query) {
+            return res.status(400).json({ message: 'Search query is required' });
+        }
+
+        const recipes = await Recipe.find({
+            $or: [
+                { title: { $regex: query, $options: 'i' } },
+                { categories: { $regex: query, $options: 'i' } }
+            ]
+        });
+
+        res.json(recipes);
+    } catch (err) {
+        res.status(500).json({ message: 'Error searching recipes' });
+    }
 };
 
 
-module.exports = {getRecipes, getRecipe, addRecipes, editRecipe, deleteRecipe, getCategories, upload}
+module.exports = {getRecipes, getRecipe, addRecipes, editRecipe, deleteRecipe, getCategories, searchRecipes, upload}

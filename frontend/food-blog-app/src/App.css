@@ -47,6 +47,11 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 2rem;
+  /*background-color: white;*/
+  /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
+  position: relative;
+  z-index: 1000;
 }
 
 .logo-container {
@@ -61,8 +66,8 @@ header {
 
 .search-container {
   flex: 2;
-  display: flex;
-  justify-content: center;
+  max-width: 500px;
+  margin: 0 2rem;
 }
 
 .search-bar {
@@ -111,7 +116,8 @@ header {
 
 .nav-links ul {
   display: flex;
-  gap: 20px;
+  list-style: none;
+  /*gap: 20px;*/
   align-items: center;
   margin: 0;
   padding: 0;
@@ -119,16 +125,18 @@ header {
 
 .nav-links li {
   list-style: none;
+  margin-left: 1.5rem;
+  position: relative;
 }
 
 .nav-links a {
-  color: var(--dark);
   text-decoration: none;
+  color: #333;
   font-weight: 500;
-  font-size: 15px;
-  padding: 8px 12px;
+  padding: 0.5rem;
+  position: relative;
+  white-space: nowrap;
   border-radius: 5px;
-  transition: var(--transition);
 }
 
 .nav-links a:hover {
@@ -1643,13 +1651,21 @@ header {
 .dropdown-toggle {
   display: flex;
   align-items: center;
+  /*justify-content: center;*/
   gap: 5px;
   padding: 0.5rem 1rem;
+  cursor: pointer;
+  width: max-content;
+
+  &:hover {
+    background-color: var(--light-gray);
+  }
 }
 
 .dropdown-arrow {
-  font-size: 0.7rem;
-  transition: transform 0.2s ease;
+  font-size: 0.9rem;
+  transition: transform 0.5s ease;
+  margin-top: 2px;
 }
 
 .dropdown-arrow.open {
@@ -1658,7 +1674,7 @@ header {
 
 .dropdown-menu {
   position: absolute;
-  top: 100%;
+  top: 0;
   left: 0;
   background: white;
   border-radius: 4px;
@@ -1674,7 +1690,8 @@ header {
 }
 
 .dropdown-item:hover {
-  background-color: #f5f5f5;
+  background-color: var(--secondary) ;
+  color: #f8f8f8;
 }
 
 .dropdown-divider {
@@ -1686,28 +1703,90 @@ header {
 .search-bar {
   display: flex;
   width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.search-bar:focus-within {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 2px rgba(var(--secondary), 0.2);
 }
 
 .search-input {
   flex-grow: 1;
   padding: 0.5rem 1rem;
   border: 1px solid #ddd;
-  border-radius: 4px 0 0 4px;
+  /*border-radius: 4px 0 0 4px;*/
   outline: none;
 }
 
 .search-button {
-  padding: 0.5rem 1rem;
-  background: var(--secondary);
-  color: white;
+  padding: 0 1rem;
+  /*background: var(--secondary);*/
+  color: var(--secondary);
   border: none;
-  border-radius: 0 4px 4px 0;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-button:hover {
-  background: var(--light);
+  /*background: var(--light);*/
+  /*color: var(--secondary);*/
+
+}
+
+.no-recipes-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* Recipe filtering styles */
+.no-recipes {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.1rem;
+  grid-column: 1 / -1;
+}
+
+/* Dropdown improvements */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  z-index: 1000;
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+}
+
+/*.dropdown-item {*/
+/*  padding: 0.75rem 1.5rem;*/
+/*  cursor: pointer;*/
+/*  transition: all 0.2s ease;*/
+/*}*/
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #eee;
+  margin: 0.5rem 0;
 }
 
 /* Auth button styles */
