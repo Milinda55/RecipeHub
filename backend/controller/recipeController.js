@@ -62,29 +62,44 @@ const addRecipes = async (req, res) => {
 
 
         let ingredientsArray;
-        let categoriesArray;
+        if (typeof ingredients === 'string') {
 
-        try {
-            ingredientsArray = JSON.parse(ingredients);
-            categoriesArray = JSON.parse(categories);
-        } catch (e) {
-            // If parsing fails, handle as strings
-            ingredientsArray = ingredients.split(',').map(item => item.trim());
-            categoriesArray = [categories].flat(); // Handle both string and array
+            ingredientsArray = ingredients.split(',')
+                .map(item => item.trim())
+                .filter(item => item.length > 0);
+        } else if (Array.isArray(ingredients)) {
+
+            ingredientsArray = ingredients.flatMap(item =>
+                typeof item === 'string' ? item.split(',').map(i => i.trim()) : item
+            ).filter(item => item && item.length > 0);
+        } else {
+            ingredientsArray = [];
         }
+
+        let categoriesArray;
+        if (typeof categories === 'string') {
+            try {
+                categoriesArray = JSON.parse(categories);
+            } catch {
+                categoriesArray = [categories];
+            }
+        } else if (Array.isArray(categories)) {
+            categoriesArray = categories;
+        } else {
+            categoriesArray = [];
+        }
+
 
 
         const newRecipe = await Recipes.create({
             title,
             ingredients: ingredientsArray,
             instructions,
-            time: parseInt(time) || 0,
+            time,
             categories: categoriesArray,
             coverImage: req.file?.filename || 'default-recipe.jpg',
             createdBy: req.user.id
         });
-
-
         res.status(201).json(newRecipe);
     } catch (err) {
         console.error('Error creating recipe:', err);
@@ -107,21 +122,30 @@ const editRecipe = async (req, res) => {
             return res.status(403).json({ message: 'Not authorized' });
         }
 
-        const ingredientsArray = Array.isArray(ingredients)
-            ? ingredients
-            : ingredients.split(',').map(item => item.trim());
+        const ingredientsArray = typeof ingredients === 'string'
+            ? ingredients.split(',').map(item => item.trim()).filter(item => item)
+            : Array.isArray(ingredients) ? ingredients : [];
 
-
-        const categoriesArray = Array.isArray(categories)
-            ? categories
-            : [categories];
+        // Process categories
+        let categoriesArray;
+        if (typeof categories === 'string') {
+            try {
+                categoriesArray = JSON.parse(categories);
+            } catch {
+                categoriesArray = [categories];
+            }
+        } else if (Array.isArray(categories)) {
+            categoriesArray = categories;
+        } else {
+            categoriesArray = recipe.categories;
+        }
 
 
         const updatedData = {
             title,
             ingredients: ingredientsArray,
             instructions,
-            time: parseInt(time) || 0,
+            time,
             categories: categoriesArray,
             coverImage: req.file?.filename || recipe.coverImage
         };
@@ -132,11 +156,19 @@ const editRecipe = async (req, res) => {
             updatedData,
             { new: true }
         );
-
-
         res.json(updatedRecipe);
+
     } catch (err) {
-        res.status(500).json({ message: 'Error updating recipe' });
+        console.error('Full update error:', {
+            message: err.message,
+            stack: err.stack,
+            body: req.body,
+            file: req.file
+        });
+        res.status(500).json({
+            message: 'Error updating recipe',
+            error: err.message
+        });
     }
 }
 
@@ -173,7 +205,7 @@ const deleteRecipe = async (req, res) => {
 
 const getCategories = async (req, res) => {
     try {
-        const categories = [
+        const allCategories = [
             'breakfast',
             'lunch',
             'dinner',
@@ -189,7 +221,7 @@ const getCategories = async (req, res) => {
             'pasta',
             'street-food'
         ];
-        res.json(categories);
+        res.json(allCategories);
     } catch (err) {
         res.status(500).json({ message: 'Error fetching categories' });
     }

@@ -18,12 +18,42 @@ function EditFoodRecipe() {
     const {id} = useParams();
 
     useEffect(() => {
-        const fetchCategories = async () => {
+        const getData = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/recipes/categories");
-                setAvailableCategories(response.data);
+                const response = await axios.get(`http://localhost:5000/recipe/${id}`);
+                const res = response.data;
+
+                let displayIngredients = '';
+                if (Array.isArray(res.ingredients)) {
+
+                    const flatIngredients = res.ingredients.flat();
+                    displayIngredients = flatIngredients
+                        .map(item => {
+
+                            if (typeof item === 'string') {
+                                return item.replace(/^\[|\]|"|'/g, '').trim();
+                            }
+                            return item;
+                        })
+                        .filter(item => item && item.trim().length > 0)
+                        .join(', ');
+                }
+
+
+                setRecipeData({
+                    title: res.title,
+                    ingredients: displayIngredients,
+                    instructions: res.instructions,
+                    time: res.time,
+                    categories: Array.isArray(res.categories) ? res.categories : []
+                });
+
+                const categoriesResponse = await axios.get("http://localhost:5000/recipe/categories");
+                setAvailableCategories(categoriesResponse.data)
+
+
             } catch (error) {
-                console.error("Error fetching categories:", error);
+                console.error("Error fetching recipe:", error);
                 setAvailableCategories([
                     'breakfast',
                     'lunch',
@@ -40,24 +70,6 @@ function EditFoodRecipe() {
                     'pasta',
                     'street-food'
                 ]);
-            }
-        };
-        fetchCategories();
-
-        const getData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:5000/recipe/${id}`);
-                const res = response.data;
-                setRecipeData({
-                    title: res.title,
-                    ingredients: res.ingredients.join(","),
-                    instructions: res.instructions,
-                    time: res.time,
-                    categories: res.categories || [],
-                    file: null // Keep file as null unless you want to show the existing image
-                });
-            } catch (error) {
-                console.error("Error fetching recipe:", error);
             }
         };
         getData();
@@ -90,15 +102,20 @@ function EditFoodRecipe() {
         e.preventDefault();
         try {
             const formData = new FormData();
-            Object.entries(recipeData).forEach(([key, value]) => {
-                if (key === 'ingredients' || key === 'categories') {
-                    formData.append(key, JSON.stringify(value));
-                } else if (key === 'file' && value) {
-                    formData.append('coverImage', value);
-                } else if (key !== 'file') {
-                    formData.append(key, value);
-                }
-            });
+
+            formData.append('title', recipeData.title);
+            formData.append('time', recipeData.time);
+            formData.append('instructions', recipeData.instructions);
+            formData.append('ingredients', JSON.stringify(
+                typeof recipeData.ingredients === 'string'
+                    ? recipeData.ingredients.split(',')
+                    : recipeData.ingredients
+            ));
+            formData.append('categories', JSON.stringify(recipeData.categories));
+
+            if (recipeData.file) {
+                formData.append('file', recipeData.file);
+            }
 
             await axios.put(`http://localhost:5000/recipe/${id}`, formData, {
                 headers: {
@@ -108,7 +125,7 @@ function EditFoodRecipe() {
             });
             navigate("/");
         } catch (error) {
-            console.error("Error updating recipe:", error);
+            console.error("Error updating recipe:", error.response?.data || error.message);
         }
     };
 
@@ -187,10 +204,10 @@ function EditFoodRecipe() {
                         <div className="category-selector">
                             <div
                                 className="category-input"
-                                value={recipeData.categories || ''}
+                                // value={recipeData.categories || ''}
                                 onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
                             >
-                                {recipeData.categories.length > 0 ? (
+                                {recipeData.categories && recipeData.categories.length > 0 ? (
                                     recipeData.categories.map(category => (
                                         <span key={category} className="selected-category">
                                            {category}
@@ -216,11 +233,13 @@ function EditFoodRecipe() {
                                     {availableCategories.map(category => (
                                         <div
                                             key={category}
-                                            className={`category-option ${recipeData.categories.includes(category) ? 'selected' : ''}`}
+                                            className={`category-option ${
+                                                recipeData.categories?.includes(category) ? 'selected' : ''
+                                            }`}
                                             onClick={() => handleCategoryToggle(category)}
                                         >
                                             {category}
-                                            {recipeData.categories.includes(category) && <FaCheck />}
+                                            {recipeData.categories?.includes(category) && <FaCheck />}
                                         </div>
                                     ))}
                                 </div>
@@ -234,7 +253,7 @@ function EditFoodRecipe() {
                         <div className="file-upload">
                             <label htmlFor="file-upload" className="file-upload-label">
              <span className="file-upload-text">
-               {recipeData.file ? recipeData.file.name : 'Choose an image...'}
+               {recipeData.file ? recipeData.file.name : 'Choose an image(Optional)'}
              </span>
                                 <span className="file-upload-button">Browse</span>
                             </label>
@@ -245,7 +264,6 @@ function EditFoodRecipe() {
                                 name="file"
                                 onChange={onHandleChange}
                                 accept="image/*"
-                                required
                             />
                         </div>
                         <p className="file-hint">Upload a high-quality image of your finished dish</p>
