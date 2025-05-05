@@ -48,9 +48,21 @@ function RecipeDetail() {
 
 
     const isFavorite = favItems.some(item => item._id === recipe._id);
-    const difficulty =
-        recipe.time <= 10 ? "Easy" :
-            recipe.time <= 20 ? "Medium" : "Hard";
+
+    const getDifficulty = (time) => {
+        if (!time) return "Easy";
+
+        const timeNumber = typeof time === 'string'
+            ? parseInt(time.replace(/\D/g, ''), 10)
+            : Number(time);
+
+        if (isNaN(timeNumber)) return "Easy";
+
+        return timeNumber <= 10 ? "Easy" :
+            timeNumber <= 20 ? "Medium" : "Hard";
+    };
+
+    const difficulty = getDifficulty(recipe.time);
 
 
     return (
@@ -106,20 +118,42 @@ function RecipeDetail() {
                 <div className="ingredients-section">
                     <h2>Ingredients</h2>
                     <ul className="ingredients-list">
-                        {Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0 ? (
-                            recipe.ingredients.length === 1
-                                ? recipe.ingredients[0].split(',').map((ingredient, index) => (
-                                    <li key={index}>{ingredient.trim()}</li>
-                                ))
-                                : recipe.ingredients.map((ingredient, index) => (
-                                    <li key={index}>{ingredient.trim()}</li>
-                                ))
-                        ) : (
-                            <li>No ingredients listed</li>
-                        )}
+                        {(() => {
+                            let ingredientsArray = [];
+
+                            if (Array.isArray(recipe.ingredients)) {
+                                ingredientsArray = recipe.ingredients.flatMap(item => {
+                                    if (Array.isArray(item)) {
+                                        return item.flatMap(i =>
+                                            typeof i === 'string'
+                                                ? i.split('\n').map(line => line.trim())
+                                                : [String(i)]
+                                        );
+                                    }
+                                    return typeof item === 'string'
+                                        ? item.split('\n').map(line => line.trim())
+                                        : [String(item)];
+                                });
+                            } else if (typeof recipe.ingredients === 'string') {
+                                ingredientsArray = recipe.ingredients.includes('\n')
+                                    ? recipe.ingredients.split('\n').map(line => line.trim())
+                                    : recipe.ingredients.split(',').map(item => item.trim());
+                            }
+
+                            return ingredientsArray
+                                .flat()
+                                .map(item => {
+                                    const cleanItem = typeof item === 'string'
+                                        ? item.replace(/^\[|\]|"/g, '').trim()
+                                        : String(item);
+                                    return cleanItem;
+                                })
+                                .filter(item => item.length > 0)
+                                .map((ingredient, index) => (
+                                    <li key={index}>{ingredient}</li>
+                                ));
+                        })()}
                     </ul>
-
-
                 </div>
 
                 <div className="instructions-section">
