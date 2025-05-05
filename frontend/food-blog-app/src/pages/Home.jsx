@@ -21,6 +21,7 @@ function Home(props) {
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false)
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const heroImages = [heroImage1, heroImage2, heroImage3, heroImage4, heroImage5];
 
     useEffect(() => {
@@ -54,6 +55,13 @@ function Home(props) {
             setIsOpen(true)
         }
     }
+
+    const handleCategoryClick = (category) => {
+        setSelectedCategory(category.toLowerCase());
+        document.querySelector('.featured-recipes').scrollIntoView({
+            behavior: 'smooth'
+        });
+    };
 
     return (
         <div className="home-container">
@@ -101,7 +109,11 @@ function Home(props) {
                 <h2>Popular Categories</h2>
                 <div className="category-grid">
                     {['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Fast Food', 'Pizza', 'Kottu', 'Burgers', 'Snacks', 'Smoothies'].map((category) => (
-                        <div key={category} className="category-card">
+                        <div
+                            key={category}
+                            className="category-card"
+                            onClick={() => handleCategoryClick(category)}
+                        >
                             <div className="category-image">
                                 <img src={`/categories/${category.toLowerCase()}.png`} alt={category} />
                             </div>
@@ -113,10 +125,21 @@ function Home(props) {
 
             <section className="featured-recipes">
                 <div className="section-header">
-                    <h2>Trending Recipes</h2>
-                    <div className="view-all" onClick={() => document.querySelector('.featured-recipes').scrollIntoView({ behavior: 'smooth' })}>View All →</div>
+                    <h2>
+                        {selectedCategory
+                            ? `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Recipes`
+                            : 'Trending Recipes'}
+                    </h2>
+                    {selectedCategory && (
+                        <div
+                            className="view-all"
+                            onClick={() => setSelectedCategory(null)}
+                        >
+                            View All Recipes →
+                        </div>
+                    )}
                 </div>
-                <RecipeItems />
+                <RecipeItems category={selectedCategory} />
             </section>
 
             <section className="newsletter">

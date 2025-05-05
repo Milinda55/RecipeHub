@@ -9,7 +9,7 @@ import axios from "axios";
 import {AuthContext} from "./AuthContext.jsx";
 
 
-function RecipeItems(props) {
+function RecipeItems({category}) {
 
 
     const recipes=useLoaderData();
@@ -34,6 +34,31 @@ function RecipeItems(props) {
         const storedFavs = JSON.parse(localStorage.getItem("fav")) || [];
         setFavItems(storedFavs);
     }, [forceUpdate]);
+
+    useEffect(() => {
+        const fetchRecipes = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/recipe");
+                let recipes = response.data;
+
+                // Filter by category if one is selected
+                if (category) {
+                    recipes = recipes.filter(recipe =>
+                        recipe.categories &&
+                        recipe.categories.some(cat =>
+                            cat.toLowerCase() === category.toLowerCase()
+                        )
+                    );
+                }
+
+                setAllRecipes(recipes);
+            } catch (error) {
+                console.error("Error fetching recipes:", error);
+            }
+        };
+
+        fetchRecipes();
+    }, [category]);
 
 
     const onDelete = async(id) => {

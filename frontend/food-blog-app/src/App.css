@@ -725,12 +725,15 @@ header {
 }
 
 .view-all {
+  color: var(--secondary);
   cursor: pointer;
+  font-weight: 600;
+  transition: color 0.2s ease;
   width: 8%;
 
   &:hover {
     font-weight: bold;
-    color: #307bbd;
+    color: #286b78;
   }
 }
 
@@ -1141,6 +1144,7 @@ header {
   box-shadow: var(--shadow);
   transition: var(--transition);
   text-align: center;
+  cursor: pointer;
 }
 
 
@@ -1171,6 +1175,13 @@ header {
 .category-card h3 {
   padding: 1rem;
   font-size: 1.1rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
 .featured-recipes {
