@@ -7,8 +7,7 @@ router.get('/', getRecipes);
 router.get('/:id', getRecipe);
 router.post('/', upload.single('file'),verifyToken, addRecipes);
 router.put('/:id', upload.single('file'),editRecipe);
-router.delete('/:id', deleteRecipe);
-router.get('/categories', getCategories);
-
+router.delete('/:id', verifyToken, deleteRecipe);
+router.get('/recipe/categories', getCategories);
 
 module.exports = router;

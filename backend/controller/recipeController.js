@@ -61,17 +61,17 @@ const addRecipes = async (req, res) => {
         const { title, ingredients, instructions, time, categories } = req.body;
 
 
-        if (!title || !ingredients || !instructions || !categories) {
-            return res.status(400).json({ message: 'Required fields cannot be empty!' });
+        let ingredientsArray;
+        let categoriesArray;
+
+        try {
+            ingredientsArray = JSON.parse(ingredients);
+            categoriesArray = JSON.parse(categories);
+        } catch (e) {
+            // If parsing fails, handle as strings
+            ingredientsArray = ingredients.split(',').map(item => item.trim());
+            categoriesArray = [categories].flat(); // Handle both string and array
         }
-
-        const ingredientsArray = Array.isArray(ingredients)
-            ? ingredients
-            : ingredients.split(',').map(item => item.trim());
-
-        const categoriesArray = Array.isArray(categories)
-            ? categories
-            : [categories];
 
 
         const newRecipe = await Recipes.create({
@@ -87,6 +87,7 @@ const addRecipes = async (req, res) => {
 
         res.status(201).json(newRecipe);
     } catch (err) {
+        console.error('Error creating recipe:', err);
         res.status(500).json({ message: 'Error creating recipe' });
     }
 }
@@ -142,6 +143,9 @@ const editRecipe = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
     try {
+        // console.log("Deleting recipe:", req.params.id);
+        // console.log("User making request:", req.user);
+
         const recipe = await Recipes.findById(req.params.id);
 
 
@@ -149,7 +153,11 @@ const deleteRecipe = async (req, res) => {
             return res.status(404).json({ message: 'Recipe not found' });
         }
 
-        if (recipe.createdBy.toString() !== req.user.id) {
+        // console.log("Recipe creator:", recipe.createdBy.toString());
+        // console.log("Request user:", req.user.id.toString());
+
+
+        if (recipe.createdBy.toString() !== req.user.id.toString()) {
             return res.status(403).json({ message: 'Not authorized' });
         }
 
@@ -157,7 +165,8 @@ const deleteRecipe = async (req, res) => {
         await Recipes.deleteOne({ _id: req.params.id });
         res.json({ message: 'Recipe deleted successfully' });
     } catch (err) {
-        res.status(500).json({ message: 'Error deleting recipe' });
+        console.error('Delete error:', err);
+        res.status(500).json({ message: 'Error deleting recipe', error:err.message });
     }
 }
 

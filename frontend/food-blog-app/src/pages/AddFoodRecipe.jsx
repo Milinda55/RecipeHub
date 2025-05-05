@@ -16,7 +16,7 @@ function AddFoodRecipe() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/recipes/categories");
+                const response = await axios.get("http://localhost:5000/recipe/categories");
                 setAvailableCategories(response.data);
             } catch (error) {
                 console.error("Error fetching categories:", error);
@@ -73,18 +73,34 @@ function AddFoodRecipe() {
         console.log(recipeData)
         try {
             const formData = new FormData();
-            Object.entries(recipeData).forEach(([key, value]) => {
-                if (key === 'ingredients' || key === 'categories') {
-                    formData.append(key, JSON.stringify(value));
-                } else if (key === 'file') {
-                    formData.append('coverImage', value);
-                } else {
-                    formData.append(key, value);
-                }
-            });
+
+            formData.append('title', recipeData.title);
+            formData.append('time', recipeData.time);
+            formData.append('instructions', recipeData.instructions);
+            formData.append('ingredients', JSON.stringify(
+                typeof recipeData.ingredients === 'string'
+                    ? recipeData.ingredients.split(',')
+                    : recipeData.ingredients
+            ));
+            formData.append('categories', JSON.stringify(recipeData.categories));
+
+            if (recipeData.file) {
+                formData.append('file', recipeData.file); // Make sure this matches your multer config
+            }
 
 
-            await axios.post("http://localhost:5000/recipe", formData, {
+            // Object.entries(recipeData).forEach(([key, value]) => {
+            //     if (key === 'ingredients' || key === 'categories') {
+            //         formData.append(key, JSON.stringify(value));
+            //     } else if (key === 'file') {
+            //         formData.append('coverImage', value);
+            //     } else {
+            //         formData.append(key, value);
+            //     }
+            // });
+
+
+            const response = await axios.post("http://localhost:5000/recipe", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'authorization': 'bearer ' + localStorage.getItem("token")

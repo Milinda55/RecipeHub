@@ -37,8 +37,15 @@ function RecipeItems(props) {
 
 
     const onDelete = async(id) => {
+
+        if (!window.confirm("Are you sure you want to delete this recipe?")) return;
+
         try {
-            await axios.delete(`http://localhost:5000/recipe/${id}`);
+            await axios.delete(`http://localhost:5000/recipe/${id}`, {
+                headers: {
+                    'authorization': 'bearer ' + localStorage.getItem("token")
+                }
+            });
             setAllRecipes(prev => prev.filter(recipe => recipe._id !== id));
             const updatedFavs = favItems.filter(recipe => recipe._id !== id);
             localStorage.setItem("fav", JSON.stringify(updatedFavs));
