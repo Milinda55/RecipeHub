@@ -1,14 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import foodRecipe from '../assets/Food-recipe.png'
-import NavBar from "../components/NavBar.jsx";
-import Footer from "../components/Footer.jsx";
 import RecipeItems from "../components/RecipeItems.jsx";
 import {useNavigate} from "react-router-dom";
 import Modal from "../components/Modal.jsx";
 import InputForm from "../components/InputForm.jsx";
-import heroImage from '../assets/burger.png';
-import pattern from '../assets/food-pattern.png';
-
 import heroImage1 from '../assets/hero-img/hero1.png';
 import heroImage2 from '../assets/hero-img/hero2.png';
 import heroImage3 from '../assets/hero-img/hero3.png';
@@ -16,9 +10,7 @@ import heroImage4 from '../assets/hero-img/hero4.png';
 import heroImage5 from '../assets/hero-img/hero5.png';
 import {AuthContext} from "../components/AuthContext.jsx";
 
-
-
-function Home(props) {
+function Home() {
     const navigate = useNavigate()
     const [isOpen, setIsOpen] = useState(false)
     const [currentSlide, setCurrentSlide] = useState(0);
