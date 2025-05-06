@@ -129,13 +129,21 @@ function NavBar() {
                             <li className="dropdown-container">
                                 <div
                                     className="dropdown-toggle"
-                                    onClick={() => setShowDropdown(!showDropdown)}
-                                    onMouseEnter={() => setShowDropdown(true)}
-                                    onMouseLeave={() => setShowDropdown(false)}
+                                    onClick={(e) => {
+                                        if (!isLoggedIn) {
+                                            e.preventDefault();
+                                            handleAuthClick();
+                                        } else {
+                                            setShowDropdown((prev) => !prev);
+                                        }
+                                    }}
+                                    onMouseEnter={() => isLoggedIn && setShowDropdown(true)}
+                                    onMouseLeave={() => isLoggedIn && setShowDropdown(false)}
                                 >
                                     All Recipes
                                     <span className={`dropdown-arrow ${showDropdown ? 'open' : ''}`}>▼</span>
                                 </div>
+
                                 {showDropdown && (
                                     <div
                                         className="dropdown-menu"

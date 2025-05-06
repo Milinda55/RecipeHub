@@ -306,8 +306,8 @@ header {
 .auth-modal-container {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 20%;
+  right: 20%;
   bottom: 0;
   background-color: transparent;
   display: flex;
@@ -329,6 +329,21 @@ header {
   flex-direction: column;
   overflow: hidden;
 }
+
+.login-prompt {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.auth-link {
+  color: var(--secondary);
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 
 .form-scroll-container {
   padding: 10px 20px 0;
@@ -943,7 +958,7 @@ header {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
-  padding: 2rem 0;
+  padding: 0  2rem 2rem 0;
 }
 
 
@@ -1125,7 +1140,7 @@ header {
   height: 80vh;
   width: 100%;
   margin: 0 0 100px 0;
-  padding: 4rem 5%;
+  padding: 2rem 5%;
   background: var(--light);
   gap: 5px
 }
@@ -1193,7 +1208,7 @@ header {
 }
 
 .featured-recipes {
-  padding-left: 4rem;
+  padding-left: 2rem;
 }
 
 .newsletter {

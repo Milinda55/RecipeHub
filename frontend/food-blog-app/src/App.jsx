@@ -8,7 +8,6 @@ import AddFoodRecipe from "./pages/AddFoodRecipe.jsx";
 import EditRecipe from "./pages/EditRecipe.jsx";
 import { AuthProvider } from './components/AuthContext.jsx';
 import RecipeDetail from "./components/RecipeDetail.jsx";
-import SearchResults from "./pages/SearchResults.jsx";
 
 const getAllRecipes = async() => {
     let allRecipes=[];
@@ -45,7 +44,6 @@ const router = createBrowserRouter([
                     return response.data;
                 }
             },
-            { path: "/search", element: <SearchResults /> },
             { path: "/all-recipes", element: <Home showAllRecipes={true} /> }
         ]},
 

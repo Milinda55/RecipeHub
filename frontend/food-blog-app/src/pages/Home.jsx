@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import foodRecipe from '../assets/Food-recipe.png'
 import NavBar from "../components/NavBar.jsx";
 import Footer from "../components/Footer.jsx";
@@ -14,6 +14,7 @@ import heroImage2 from '../assets/hero-img/hero2.png';
 import heroImage3 from '../assets/hero-img/hero3.png';
 import heroImage4 from '../assets/hero-img/hero4.png';
 import heroImage5 from '../assets/hero-img/hero5.png';
+import {AuthContext} from "../components/AuthContext.jsx";
 
 
 
@@ -23,6 +24,7 @@ function Home(props) {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const heroImages = [heroImage1, heroImage2, heroImage3, heroImage4, heroImage5];
+    const {isLoggedIn, user, logout} = useContext(AuthContext);
 
     useEffect(() => {
         const handleFilterRecipes = (e) => {
@@ -79,6 +81,15 @@ function Home(props) {
         });
     };
 
+    const handleAuthClick = () => {
+        if (isLoggedIn) {
+            logout();
+            navigate('/');
+        } else {
+            setIsOpen(true);
+        }
+    };
+
     return (
         <div className="home-container">
             <section className="hero">
@@ -128,7 +139,13 @@ function Home(props) {
                         <div
                             key={category}
                             className="category-card"
-                            onClick={() => handleCategoryClick(category)}
+                            onClick={() => {
+                                if (!isLoggedIn) {
+                                    handleAuthClick(); // force login
+                                } else {
+                                    handleCategoryClick(category); // continue to category
+                                }
+                            }}
                         >
                             <div className="category-image">
                                 <img src={`/categories/${category.toLowerCase()}.png`} alt={category} />
@@ -139,27 +156,40 @@ function Home(props) {
                 </div>
             </section>
 
-            <section className="featured-recipes">
-                <div className="section-header">
-                    <h2>
-                        {selectedCategory
-                            ? `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Recipes`
-                            : 'Trending Recipes'}
-                    </h2>
-                    {selectedCategory && (
-                        <div
-                            className="view-all"
-                            onClick={() => {
-                                setSelectedCategory(null);
-                                window.dispatchEvent(new CustomEvent('filterRecipes', { detail: { category: null } }));
-                            }}
-                        >
-                            View All Recipes →
-                        </div>
-                    )}
-                </div>
-                <RecipeItems category={selectedCategory} />
-            </section>
+
+            {isLoggedIn ? (
+                <section className="featured-recipes">
+                    <div className="section-header">
+                        <h2>
+                            {selectedCategory
+                                ? `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Recipes`
+                                : 'Trending Recipes'}
+                        </h2>
+                        {selectedCategory && (
+                            <div
+                                className="view-all"
+                                onClick={() => {
+                                    setSelectedCategory(null);
+                                    window.dispatchEvent(new CustomEvent('filterRecipes', { detail: { category: null } }));
+                                }}
+                            >
+                                View All Recipes →
+                            </div>
+                        )}
+                    </div>
+                    <RecipeItems category={selectedCategory} />
+                </section>
+            ) : (
+                <section className="featured-recipes">
+                    <div className="section-header">
+                        <h2>Trending Recipes</h2>
+                    </div>
+                    <div className="login-prompt">
+                        <p>Please <span onClick={handleAuthClick} className="auth-link">log in</span> to view recipes.</p>
+                    </div>
+                </section>
+            )}
+
 
             <section className="newsletter">
                 <div className="newsletter-content">
