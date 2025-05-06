@@ -137,7 +137,7 @@ function Home(props) {
             <section className="categories">
                 <h2>Popular Categories</h2>
                 <div className="category-grid">
-                    {['Breakfast', 'Lunch', 'Dinner', 'Desserts', 'Fast Food', 'Pizza', 'Kottu', 'Burgers', 'Snacks', 'Smoothies'].map((category) => (
+                    {['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Street-Food', 'Pizza', 'Kottu', 'Burgers', 'Snacks', 'Smoothies'].map((category) => (
                         <div
                             key={category}
                             className="category-card"
