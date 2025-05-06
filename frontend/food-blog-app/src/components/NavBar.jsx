@@ -5,13 +5,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from './AuthContext.jsx';
 import logo from '../assets/recipe-hub-logo.png';
 
-function NavBar() {
+function NavBar({ onSearch }) {
     const [isOpen, setIsOpen] = useState(false);
     const {isLoggedIn, user, logout} = useContext(AuthContext);
     const [searchQuery, setSearchQuery] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
     // const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
+    const [term, setTerm] = useState('');
 
     const categories = [
         'breakfast', 'lunch', 'dinner', 'dessert',
@@ -19,6 +20,10 @@ function NavBar() {
         'snacks', 'smoothies', 'salads', 'beverages'
     ];
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSearch(term.toLowerCase());
+    };
 
     const handleAuthClick = () => {
         if (isLoggedIn) {
@@ -26,14 +31,6 @@ function NavBar() {
             navigate('/');
         } else {
             setIsOpen(true);
-        }
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        if (searchQuery.trim()) {
-            navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-            setSearchQuery('');
         }
     };
 
@@ -90,13 +87,13 @@ function NavBar() {
                     </div>
 
                     <div className="search-container">
-                        <form className="search-bar" onSubmit={handleSearch}>
+                        <form className="search-bar" onSubmit={handleSubmit}>
                             <input
                                 type="text"
                                 placeholder="Search recipes..."
                                 className="search-input"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                value={term}
+                                onChange={(e) => setTerm(e.target.value)}
                             />
                             <button type="submit" className="search-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">

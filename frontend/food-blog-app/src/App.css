@@ -1205,10 +1205,25 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
+
 }
 
 .featured-recipes {
   padding-left: 2rem;
+}
+
+.highlight-match {
+  background-color: #fffacd;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.search-message {
+  color: red;
+  /*margin-left: 15px;*/
+  font-size: 14px;
+  justify-content: center;
 }
 
 .newsletter {

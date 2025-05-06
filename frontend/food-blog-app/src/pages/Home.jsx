@@ -25,6 +25,8 @@ function Home(props) {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const heroImages = [heroImage1, heroImage2, heroImage3, heroImage4, heroImage5];
     const {isLoggedIn, user, logout} = useContext(AuthContext);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredTitles, setFilteredTitles] = useState([]);
 
     useEffect(() => {
         const handleFilterRecipes = (e) => {
@@ -178,6 +180,12 @@ function Home(props) {
                         )}
                     </div>
                     <RecipeItems category={selectedCategory} />
+                    {searchTerm && filteredTitles.length === 0 && (
+                        <div className="no-results-message">
+                            <p>No matching recipes found for "<strong>{searchTerm}</strong>".</p>
+                        </div>
+                    )}
+
                 </section>
             ) : (
                 <section className="featured-recipes">
