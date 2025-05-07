@@ -1,62 +1,80 @@
-# RecipeHub - MERN Food Recipe App
+# 🍲 RecipeHub – MERN Food Recipe App
 
-## Overview
+## 🔍 Overview
 
-RecipeHub is a **MERN stack web app** designed to help users discover, save, and share their favorite food recipes. Built using **MongoDB**, **Express**, **React**, and **Node.js**, RecipeHub provides a user-friendly interface that allows people to explore various dishes, add their own recipes, and create a personalized recipe collection. With a focus on recipe search, user authentication, and social sharing, RecipeHub is the perfect app for food enthusiasts looking to explore new culinary ideas.
+**RecipeHub** is a feature-rich **MERN stack web app** that allows users to **discover, save, filter, and share** food recipes with ease. Built with **MongoDB, Express, React, and Node.js**, this full-stack application delivers a seamless and responsive user experience for food lovers. Whether you're into quick snacks or gourmet meals, RecipeHub has something for everyone! 👨‍🍳✨
 
-## Features
+## 🚀 Live Preview
 
-- **Recipe Discovery**: Search through a wide range of recipes based on ingredients, categories, or cuisine.
-- **User Authentication**: Sign up and log in to save your favorite recipes and contribute your own.
-- **Add & Edit Recipes**: Easily add and edit recipes with ingredients, instructions, and photos.
-- **Recipe Sharing**: Share your favorite recipes with others in the app's community.
-- **Responsive Design**: Optimized for use on both desktop and mobile devices, allowing users to browse recipes anytime, anywhere.
+> 🖼️ ![RecipeHub Screenshot 1](screenshots/recipe-home.png)  
+> 🖼️ ![RecipeHub Screenshot 2](screenshots/recipe-details.png)
 
-## Technologies Used
+## 🌟 Features
 
-- **MongoDB**: NoSQL database to store recipe data and user information.
-- **Express**: Web framework for handling routes and HTTP requests on the backend.
-- **React**: Frontend library for building interactive and dynamic user interfaces.
-- **Node.js**: JavaScript runtime environment for building the backend server.
-- **JWT (JSON Web Tokens)**: For user authentication and secure API communication.
-- **CSS/TailwindCSS**: For responsive and modern user interface design.
+- 🔐 **User Authentication** – Sign up, log in, and manage your own recipes securely (JWT-based).
+- 📖 **Recipe Discovery** – Browse all recipes or explore by **category**, **difficulty**, or **preparation time**.
+- 📝 **Add / Edit / Delete Recipes** – Input title, ingredients, instructions, images & categorize your creations.
+- ❤️ **Favorite Recipes** – Mark and manage your favorite recipes with a heart icon.
+- 🔍 **Smart Search** – Instantly filter recipes by keyword, even with partial search terms.
+- 🧠 **Category Filtering** – Use the dropdown menu to filter recipes like "Fast Food", "Dinner", or "Dessert".
+- 📂 **My Recipes Section** – View, edit, or delete only the recipes you've created.
+- 🧪 **Unit Testing with Jest** – Ensures core features like adding, editing, and searching are reliable.
+- 📱 **Responsive Design** – Fully optimized for **mobile**, **tablet**, and **desktop**.
 
-## Installation
+## 🛠️ Technologies Used
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/Milinda55/RecipeHub.git
-    ```
-2. Navigate to the project folder:
-    ```bash
-    cd RecipeHub
-    ```
-3. Install dependencies for both frontend and backend:
-    ```bash
-    npm install
-    ```
-4. Start the backend server:
-    ```bash
-    npm run server
-    ```
-5. Start the frontend React app:
-    ```bash
-    npm run client
-    ```
+- **Frontend:** React, Tailwind CSS
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB (Mongoose)
+- **Authentication:** JSON Web Tokens (JWT)
+- **Testing:** Jest
+- **Other Tools:** React Router, Axios, Cloudinary (for image upload)
 
-## Usage
+## ⚙️ Installation
 
-1. Open the RecipeHub app in your browser.
-2. Create an account or log in to save your favorite recipes and contribute your own.
-3. Explore the recipe collection and search for recipes based on your preferences.
-4. Add new recipes, edit existing ones, and share them with the community.
-5. Enjoy discovering new dishes and sharing your culinary creativity with others!
+```bash
+# 1. Clone the repo
+git clone https://github.com/Milinda55/RecipeHub.git
+cd RecipeHub
 
-## License
+# 2. Install backend dependencies
+npm install
 
-This project is licensed under the MIT License - see the [MIT LICENSE](LICENSE.txt) file for details.
+# 3. Navigate to frontend folder and install frontend dependencies
+cd frontend
+npm install
 
-## Acknowledgments
+# 4. Go back to root and start backend server
+cd ..
+npm run backend
 
-- Thanks to all the open-source contributors and resources that helped in building this app.
-- RecipeHub was inspired by the love for cooking and the desire to share recipes with others.
+# 5. Start the frontend React app
+npm run frontend
+```
+
+> 💡 **Ensure you set up your `.env` file** with the necessary **MongoDB** and **JWT** credentials before running the app.
+
+---
+
+## 🧪 Usage Instructions
+
+1. Open the app in your browser at `http://localhost:5000`.
+2. Sign up or log in.
+3. Explore recipes by title, category, or difficulty.
+4. Add your own recipes and manage them in **My Recipes**.
+5. Use the ❤️ heart icon to mark recipes as favorites.
+6. Test the app's reliability through pre-written unit tests with **Jest**.
+
+---
+
+## 📃 License
+
+This project is licensed under the **MIT License** – see the [LICENSE](LICENSE.txt) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Thanks to open-source contributors and online communities for libraries, icons, and resources.
+- Inspired by the love for cooking and the desire to share amazing recipes with others.
+
