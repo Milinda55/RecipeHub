@@ -1,18 +1,29 @@
 const express = require('express');
 const app = express();
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const connectDb = require('./config/connectionDb');
-const cors = require("cors")
+const cors = require("cors");
 
 const PORT = process.env.PORT || 3000;
+
+// Connect to MongoDB
 connectDb();
+
+// Middlewares
 app.use(express.json());
 app.use(cors());
-app.use(express.static("public"))
+app.use(express.static("public"));
 
-app.use("/", require("./routes/user"))
-app.use("/recipe", require('./routes/recipe'));
+// Routes
+app.use("/", require("./routes/user"));
+app.use("/recipe", require("./routes/recipe"));
 
-app.listen(PORT, (err) => {
-    console.log(`Server started on port: ${PORT}`);
-})
+// Start only in local
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+// Export app for Vercel
+module.exports = app;
