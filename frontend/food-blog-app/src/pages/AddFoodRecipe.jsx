@@ -16,7 +16,7 @@ function AddFoodRecipe() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/recipe/categories");
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/recipe/categories`);
                 setAvailableCategories(response.data);
             } catch (error) {
                 console.error("Error fetching categories:", error);
@@ -100,7 +100,7 @@ function AddFoodRecipe() {
             // });
 
 
-            const response = await axios.post("http://localhost:5000/recipe", formData, {
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/recipe`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'authorization': 'bearer ' + localStorage.getItem("token")

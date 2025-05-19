@@ -20,7 +20,7 @@ function EditFoodRecipe() {
     useEffect(() => {
         const getData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/recipe/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/recipe/${id}`);
                 const res = response.data;
 
                 let displayIngredients = '';
@@ -48,7 +48,7 @@ function EditFoodRecipe() {
                     categories: Array.isArray(res.categories) ? res.categories : []
                 });
 
-                const categoriesResponse = await axios.get("http://localhost:5000/recipe/categories");
+                const categoriesResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/recipe/categories`);
                 setAvailableCategories(categoriesResponse.data)
 
 
@@ -117,7 +117,7 @@ function EditFoodRecipe() {
                 formData.append('file', recipeData.file);
             }
 
-            await axios.put(`http://localhost:5000/recipe/${id}`, formData, {
+            await axios.put(`${import.meta.env.VITE_API_BASE_URL}/recipe/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'authorization': 'bearer ' + localStorage.getItem("token")

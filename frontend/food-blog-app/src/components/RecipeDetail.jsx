@@ -17,7 +17,7 @@ function RecipeDetail() {
     useEffect(() => {
         const fetchRecipe = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/recipe/${id}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/recipe/${id}`);
                 setRecipe(response.data);
             } catch (err) {
                 setError(err.message);
@@ -75,7 +75,7 @@ function RecipeDetail() {
             <div className="recipe-header">
                 <div className="recipe-image-container">
                     <img
-                        src={`http://localhost:5000/images/${recipe.coverImage}`}
+                        src={`${import.meta.env.VITE_API_BASE_URL}/images/${recipe.coverImage}`}
                         alt={recipe.title}
                         className="recipe-image"
                     />

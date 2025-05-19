@@ -11,7 +11,7 @@ import RecipeDetail from "./components/RecipeDetail.jsx";
 
 const getAllRecipes = async() => {
     let allRecipes=[];
-    await axios.get('http://localhost:5000/recipe').then(res=>{
+    await axios.get(`${import.meta.env.VITE_API_BASE_URL}/recipe`).then(res=>{
         allRecipes=res.data
     })
     return allRecipes
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
                 path: "/recipe/:id",
                 element: <RecipeDetail/>,
                 loader: async ({params}) => {
-                    const response = await axios.get(`http://localhost:5000/recipe/${params.id}`);
+                    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/recipe/${params.id}`);
                     return response.data;
                 }
             },

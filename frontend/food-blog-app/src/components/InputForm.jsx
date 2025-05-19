@@ -67,7 +67,7 @@ function InputForm({setIsOpen}) {
             const payload = isSignUp
                 ? {name: formData.name, email: formData.email, password: formData.password}
                 : {email: formData.email, password: formData.password};
-            const res = await axios.post(`http://localhost:5000/${endpoint}`, payload);
+            const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/${endpoint}`, payload);
 
             setShowFeedback('success');
 

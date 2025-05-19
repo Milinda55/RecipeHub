@@ -39,7 +39,7 @@ function RecipeItems({category}) {
     useEffect(() => {
         const fetchRecipes = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/recipe");
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/recipe`);
                 setAllRecipes(response.data);
             } catch (error) {
                 console.error("Error fetching recipes:", error);
@@ -71,7 +71,7 @@ function RecipeItems({category}) {
         if (!window.confirm("Are you sure you want to delete this recipe?")) return;
 
         try {
-            await axios.delete(`http://localhost:5000/recipe/${id}`, {
+            await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/recipe/${id}`, {
                 headers: {
                     'authorization': 'bearer ' + localStorage.getItem("token")
                 }
@@ -178,7 +178,7 @@ function RecipeItems({category}) {
                     <div key={index} className='recipe-card'>
                         <div className='card-image-container'>
                             <img
-                                src={`http://localhost:5000/images/${item.coverImage}`}
+                                src={`${import.meta.env.VITE_API_BASE_URL}/images/${item.coverImage}`}
                                 alt={item.title}
                                 className='card-image'
                             />
